@@ -12,6 +12,11 @@ dist
 dist-ssr
 *.local
 
+# Environment variables
+.env
+.env.local
+.env.*.local
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -25,3 +30,25 @@ dist-ssr
 
 .history
 package-lock.json
+
+# Firebase
+.firebase/
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+
+# Android
+android/app/build/
+android/.gradle/
+android/local.properties
+*.apk
+*.apks
+*.aab
+release.keystore
+
+# Capacitor
+.capacitor/
+android/.idea/
+
+# OS
+Thumbs.db
