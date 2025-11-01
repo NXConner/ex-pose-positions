@@ -1,0 +1,5 @@
+[33m648dee3[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m Update homepage URL and trigger automatic deployment test
+[33m8a5c441[m Add .firebaserc with Firebase project configuration
+[33me05e10c[m Add deployment instructions to README
+[33m275dfce[m Add Firebase automatic deployment to CI workflow
+[33m828d64c[m Configure Firebase hosting and update .gitignore

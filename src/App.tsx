@@ -3,15 +3,20 @@ import { Footer, Header, Filters, SexPositionCard, Partner, Tonight, TonightPlan
 export function App() {
   return (
     <div
-      style={{ width: "92%" }}
+      style={{ width: "92%", zIndex: 1 }}
       className="flex items-center justify-center w-full flex-col gap-5 p-5 relative mx-auto max-w-3xl"
     >
       <img
         alt=""
         loading="lazy"
         src={localStorage.getItem('bg_src') || 'images/background.png'}
-        className="fixed top-0 left-0"
-        style={{ opacity: Number(localStorage.getItem('bg_opacity') || 0.5), filter: `blur(${localStorage.getItem('bg_blur') || 6}px)` }}
+        className="fixed top-0 left-0 w-full h-full object-cover"
+        style={{ 
+          opacity: Number(localStorage.getItem('bg_opacity') || 0.5), 
+          filter: `blur(${localStorage.getItem('bg_blur') || 6}px)`,
+          pointerEvents: 'none',
+          zIndex: 0
+        }}
       />
 
       {/* HEADER */}

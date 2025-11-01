@@ -1,7 +1,7 @@
 {
   "dir": "ltr",
-  "scope": "/",
-  "start_url": "/",
+  "scope": "./",
+  "start_url": "./",
   "name": "Random Sex Position",
   "short_name": "Random Sex Position",
   "display": "fullScreen",
@@ -60,19 +60,18 @@
       "sizes": "512x512",
       "type": "image/png"
     }
-  ]
-  ,
+  ],
   "shortcuts": [
     {
       "name": "Randomize",
       "short_name": "Randomize",
-      "url": "/random-sex-position/",
+      "url": "./",
       "description": "Open app to random position"
     },
     {
       "name": "My Lists",
       "short_name": "Lists",
-      "url": "/random-sex-position/",
+      "url": "./",
       "description": "Open app to lists section"
     }
   ]
