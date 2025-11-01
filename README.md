@@ -49,6 +49,30 @@
   - Tonight's Plans → adds to draft list
   - My Lists chips → adds to that list instantly
 
+## Deployment
+
+### Firebase Hosting (Manual)
+1. Build the app: `npm run build`
+2. Deploy: `firebase deploy --only hosting`
+3. Your app will be live at: `https://ex-pose-positions.web.app`
+
+### Automatic Deployments (GitHub Actions)
+1. Get Firebase service account key:
+   - Go to: https://console.firebase.google.com/project/ex-pose-positions/settings/serviceaccounts/adminsdk
+   - Click "Generate new private key"
+   - Save the JSON file
+2. Add to GitHub Secrets:
+   - Go to: https://github.com/NXConner/ex-pose-positions/settings/secrets/actions
+   - Click "New repository secret"
+   - Name: `FIREBASE_SERVICE_ACCOUNT`
+   - Value: Paste entire contents of the JSON file
+3. Push to `main` branch → automatic deployment!
+
+### Firebase Project
+- Project ID: `ex-pose-positions`
+- Project Number: `847137742129`
+- Repository: https://github.com/NXConner/ex-pose-positions
+
 ## Android (Capacitor)
 - Sync web assets: `pnpm run cap:sync`
 - Open Android Studio: `pnpm run cap:android`
