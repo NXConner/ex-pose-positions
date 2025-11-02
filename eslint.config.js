@@ -25,10 +25,9 @@ export default tseslint.config(
         'warn',
         { allowConstantExport: true },
       ],
-      // a11y essentials
+      // a11y essentials (only include rules that exist in jsx-a11y plugin)
       'jsx-a11y/alt-text': 'warn',
       'jsx-a11y/anchor-has-content': 'warn',
-      'jsx-a11y/aria-roles': 'warn',
       'jsx-a11y/no-autofocus': 'off'
     },
   },

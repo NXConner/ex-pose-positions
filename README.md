@@ -1,4 +1,4 @@
-# Pavement Performance Suite - Random Positions App (Enhanced)
+# Random Positions App (Enhanced)
 
 ## Setup
 

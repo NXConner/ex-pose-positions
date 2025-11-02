@@ -5,6 +5,9 @@ import { useShared } from "@/hooks/use-shared";
 /**
  * Centralized application state context
  * Reduces prop drilling and provides global state access
+ * 
+ * NOTE: This provider MUST be used inside a BrowserRouter component
+ * because it uses hooks that depend on React Router context.
  */
 interface AppContextType {
   // Actions hook data
@@ -27,6 +30,7 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | null>(null);
 
 export function AppContextProvider({ children }: { children: ReactNode }) {
+  // These hooks require Router context - ensure BrowserRouter wraps this component
   const actions = useActionsHook();
   const shared = useShared();
 
