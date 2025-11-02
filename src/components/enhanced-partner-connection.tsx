@@ -3,6 +3,7 @@ import { useShared } from "@/hooks/use-shared";
 import { signInAnonymously } from "firebase/auth";
 import { getFirebase } from "@/services/firebase";
 import { sanitizeForFirebase } from "@/utils/sanitize";
+import { hapticPress, hapticSuccess, hapticError } from "@/utils/haptic";
 
 export function EnhancedPartnerConnection() {
   const { me, partner, savePartner, shared, features } = useShared();
@@ -31,6 +32,7 @@ export function EnhancedPartnerConnection() {
 
   const handleCopyMyId = useCallback(() => {
     if (me) {
+      hapticSuccess();
       navigator.clipboard.writeText(me);
       alert('User ID copied to clipboard! Send this to your partner.');
     }
@@ -38,9 +40,11 @@ export function EnhancedPartnerConnection() {
 
   const handleConnect = useCallback(() => {
     if (input.trim()) {
+      hapticPress();
       savePartner(input.trim());
       alert('Partner ID saved! Waiting for connection...');
     } else {
+      hapticError();
       alert('Please enter your partner\'s User ID');
     }
   }, [input, savePartner]);
