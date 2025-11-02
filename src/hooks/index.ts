@@ -5,3 +5,4 @@ export * from "./use-lists";
 export * from "./use-plans";
 export * from "./use-lock";
 export * from "./use-online";
+export * from "./use-keyboard-shortcuts";

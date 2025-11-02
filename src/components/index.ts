@@ -36,3 +36,4 @@ export * from "./skeleton-loader";
 export * from "./positions-gallery-modal";
 export * from "./dev-diagnostics";
 export * from "./version-badge";
+export * from "./keyboard-shortcuts-help";

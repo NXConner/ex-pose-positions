@@ -6,6 +6,7 @@ import { DevDiagnostics } from "./dev-diagnostics";
 import { BackgroundUploader } from "./background-uploader";
 import { ThemeCustomizer } from "./theme-customizer";
 import { ImageUpload } from "./image-upload";
+import { KeyboardShortcutsHelp } from "./keyboard-shortcuts-help";
 import { useShared } from "@/hooks/use-shared";
 import { getFirebase } from "@/services/firebase";
 import { doc, onSnapshot } from "firebase/firestore";
@@ -148,6 +149,11 @@ export function Settings() {
           <input type="checkbox" defaultChecked={localStorage.getItem('cam_autodelete')==='1'} onChange={(e)=>localStorage.setItem('cam_autodelete', e.target.checked?'1':'0')} />
           Auto-delete temp blobs after export
         </label>
+      </div>
+
+      {/* Keyboard Shortcuts */}
+      <div className="mt-4 border-t border-slate-700 pt-4">
+        <KeyboardShortcutsHelp />
       </div>
 
       <details className="mt-2">

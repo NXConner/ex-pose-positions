@@ -19,12 +19,17 @@
 - Shared/Custom Lists + merged view
 - Real-Time Game + Stats
 - Photo Ideas (Solo/Couples/Tips)
-- Theme selector (Dark/Neon)
+- Theme selector (Dark/Neon) with customization
 - Offline support (SW) + indicator
 - Drag-and-drop: drop the position image onto Tonight's Plans to add, or onto a list chip in My Lists to auto-add
 - Positions Gallery to browse/search and jump to any position
 - Camera Sync (local-only by default): enable camera, Start/Join with countdown; TURN relay optional; save to device
 - PIN Lock (4–6 digits) with auto-lock on screen off
+- Keyboard shortcuts (Ctrl+F for filters, Ctrl+K or / for search, etc.)
+- Custom image upload to replace position images
+- Performance monitoring (dev mode)
+- Enhanced accessibility (ARIA labels, keyboard navigation)
+- Code splitting & lazy loading for optimal performance
 
 ## Development
 - Lint: pnpm lint

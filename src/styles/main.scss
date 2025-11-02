@@ -11,6 +11,28 @@ html,
 body {
   user-select: none;
   scroll-behavior: smooth;
+  /* Improved touch scrolling on mobile */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Better mobile/tablet responsive behavior */
+@media (max-width: 768px) {
+  body {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+  
+  /* Larger touch targets */
+  button, a, input[type="button"], input[type="submit"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Optimize for small screens */
+  .neon-card {
+    padding: 1rem;
+  }
 }
 
 /* Theming: default, dark, and high-contrast neon */

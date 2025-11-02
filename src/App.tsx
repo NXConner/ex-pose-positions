@@ -10,6 +10,7 @@ import {
 } from "@/components";
 import { useActions } from "@/hooks";
 import { LazyWrapper } from "@/components/lazy-wrapper";
+import { useKeyboardShortcuts } from "@/hooks/use-keyboard-shortcuts";
 
 // Lazy load heavy components
 const EnhancedPartnerConnection = lazy(() => import("@/components/enhanced-partner-connection").then(m => ({ default: m.EnhancedPartnerConnection })));
@@ -54,6 +55,39 @@ export function App() {
       }
     }
   }, [searchTerm]); // Only on search term change, not on filteredData
+
+  // Register keyboard shortcuts
+  useKeyboardShortcuts([
+    {
+      key: "f",
+      ctrlKey: true,
+      action: () => setShowFilters(!showFilters),
+      description: "Toggle filters"
+    },
+    {
+      key: ",",
+      ctrlKey: true,
+      action: () => setShowSettings(!showSettings),
+      description: "Toggle settings"
+    },
+    {
+      key: "k",
+      ctrlKey: true,
+      action: () => {
+        const searchInput = document.querySelector('input[type="search"]') as HTMLInputElement;
+        searchInput?.focus();
+      },
+      description: "Focus search"
+    },
+    {
+      key: "/",
+      action: () => {
+        const searchInput = document.querySelector('input[type="search"]') as HTMLInputElement;
+        searchInput?.focus();
+      },
+      description: "Focus search"
+    }
+  ]);
 
   return (
     <div

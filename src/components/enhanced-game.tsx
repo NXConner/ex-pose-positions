@@ -5,7 +5,12 @@ import { useGame } from "@/hooks/use-game";
 import { throttle } from "@/utils/throttle";
 import { getRandomNumber } from "@/utils";
 
-function formatMs(ms: number) {
+/**
+ * Formats milliseconds into a readable time string (MM:SS or HH:MM:SS)
+ * @param ms - Milliseconds to format
+ * @returns Formatted time string
+ */
+function formatMs(ms: number): string {
   const s = Math.floor(ms / 1000);
   const h = Math.floor(s / 3600);
   const m = Math.floor((s % 3600) / 60);
@@ -15,6 +20,11 @@ function formatMs(ms: number) {
   }
   return `${m}:${ss}`;
 }
+
+/**
+ * Enhanced Game component with timer, pause/resume, and position tracking
+ * Provides a gamified session experience with real-time statistics
+ */
 
 export function EnhancedGame() {
   const { filteredData, setPositionId } = useActions();

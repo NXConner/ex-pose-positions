@@ -5,6 +5,7 @@ import { useActions } from "@/hooks";
 import { getRandomNumber } from "@/utils";
 import { ManageLists } from "./manage-lists";
 import { ImageSkeleton } from "./skeleton-loader";
+import { useKeyboardShortcuts } from "@/hooks/use-keyboard-shortcuts";
 
 const BADGE_COLORS: Record<string, string> = {
   [SEX_LEVELS.SAFE]: "bg-green-500",
@@ -56,6 +57,30 @@ export function SexPositionCard() {
     document.addEventListener('open-manage-lists', open as EventListener);
     return () => document.removeEventListener('open-manage-lists', open as EventListener);
   }, []);
+
+  // Register keyboard shortcuts for position card
+  useKeyboardShortcuts([
+    {
+      key: "r",
+      action: handleImageClick,
+      description: "Get random position"
+    },
+    {
+      key: "ArrowLeft",
+      action: goPrev,
+      description: "Previous position"
+    },
+    {
+      key: "ArrowRight",
+      action: goNextRandom,
+      description: "Next random position"
+    },
+    {
+      key: "l",
+      action: () => setOpenLists(true),
+      description: "Open manage lists"
+    }
+  ]);
 
   const { id, level, title, imageAlt, fileName, description, pros, cons } =
     positionId === 0 || !activePosition ? DEFAULT_POSITION : activePosition;
