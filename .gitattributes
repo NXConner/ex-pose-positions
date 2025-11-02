@@ -1,0 +1,5 @@
+# Mark sensitive files
+.env linguist-generated=true
+.env linguist-vendored=true
+.env export-ignore
+
