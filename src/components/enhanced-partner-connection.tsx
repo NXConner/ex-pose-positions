@@ -92,7 +92,6 @@ export function EnhancedPartnerConnection() {
             <div className="text-sm text-slate-400 mb-2">Partner's User ID</div>
             <div className="flex items-center gap-2">
               <input
-                className="text"
                 className="flex-1 bg-slate-800 text-white rounded px-3 py-2 font-mono text-sm"
                 value={input}
                 onChange={(e) => {
