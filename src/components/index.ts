@@ -38,3 +38,5 @@ export * from "./dev-diagnostics";
 export * from "./version-badge";
 export * from "./keyboard-shortcuts-help";
 export * from "./dev-tools";
+export * from "./error-toast";
+export * from "./collapsible-section";

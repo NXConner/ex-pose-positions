@@ -1,13 +1,15 @@
 import { useState, useMemo, useEffect, lazy, Suspense } from "react";
 import { 
-  Header, 
-  SexPositionCard, 
-  TopNavBar,
-  Filters,
-  OfflineBadge, 
-  UpdateToast, 
-  PinLock
-} from "@/components";
+          Header, 
+          SexPositionCard, 
+          TopNavBar,
+          Filters,
+          OfflineBadge, 
+          UpdateToast, 
+          PinLock
+        } from "@/components";
+import { CollapsibleSection } from "@/components/collapsible-section";
+import { QuickJump } from "@/components/quick-jump";
 import { useActions } from "@/hooks";
 import { LazyWrapper } from "@/components/lazy-wrapper";
 import { useKeyboardShortcuts } from "@/hooks/use-keyboard-shortcuts";
@@ -129,45 +131,62 @@ export function App() {
         <SignIn />
       </LazyWrapper>
 
-      {/* TONIGHT'S PLANS (Enhanced) */}
-      <LazyWrapper>
-        <EnhancedTonightPlans />
-      </LazyWrapper>
+              {/* TONIGHT'S PLANS (Enhanced) */}
+              <LazyWrapper>
+                <CollapsibleSection title="Tonight's Plans" icon="💝" defaultOpen={true}>
+                  <EnhancedTonightPlans />
+                </CollapsibleSection>
+              </LazyWrapper>
 
       {/* CAMERA SYNC directly below image */}
       <LazyWrapper>
         <CameraSync />
       </LazyWrapper>
 
-      {/* PARTNER CONNECTION (Enhanced) */}
-      <LazyWrapper>
-        <EnhancedPartnerConnection />
-      </LazyWrapper>
+              {/* QUICK JUMP NAVIGATION */}
+              <QuickJump />
 
-      {/* MY LISTS */}
-      <LazyWrapper>
-        <MyLists />
-      </LazyWrapper>
+              {/* PARTNER CONNECTION (Enhanced) */}
+              <LazyWrapper>
+                <CollapsibleSection title="Partner Connection" icon="💝" defaultOpen={false}>
+                  <EnhancedPartnerConnection />
+                </CollapsibleSection>
+              </LazyWrapper>
 
-      {/* GAME (Enhanced with timer) */}
-      <LazyWrapper>
-        <EnhancedGame />
-      </LazyWrapper>
+              {/* MY LISTS */}
+              <LazyWrapper>
+                <CollapsibleSection title="My Lists" icon="📁" defaultOpen={false}>
+                  <MyLists />
+                </CollapsibleSection>
+              </LazyWrapper>
 
-      {/* STATS */}
-      <LazyWrapper>
-        <Stats />
-      </LazyWrapper>
+              {/* GAME (Enhanced with timer) */}
+              <LazyWrapper>
+                <CollapsibleSection title="Game" icon="🎮" defaultOpen={false}>
+                  <EnhancedGame />
+                </CollapsibleSection>
+              </LazyWrapper>
 
-      {/* PHOTO IDEAS */}
-      <LazyWrapper>
-        <PhotoIdeas />
-      </LazyWrapper>
+              {/* STATS */}
+              <LazyWrapper>
+                <CollapsibleSection title="Stats" icon="📊" defaultOpen={false}>
+                  <Stats />
+                </CollapsibleSection>
+              </LazyWrapper>
 
-      {/* GALLERY */}
-      <LazyWrapper>
-        <PositionsGallery />
-      </LazyWrapper>
+              {/* PHOTO IDEAS */}
+              <LazyWrapper>
+                <CollapsibleSection title="Photo Ideas" icon="📸" defaultOpen={false}>
+                  <PhotoIdeas />
+                </CollapsibleSection>
+              </LazyWrapper>
+
+              {/* GALLERY */}
+              <LazyWrapper>
+                <CollapsibleSection title="All Positions Gallery" icon="🖼️" defaultOpen={false}>
+                  <PositionsGallery />
+                </CollapsibleSection>
+              </LazyWrapper>
 
       {/* SETTINGS (Conditional, merged with Profile) */}
       {showSettings && (

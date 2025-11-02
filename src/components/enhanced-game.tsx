@@ -4,6 +4,7 @@ import { useShared } from "@/hooks/use-shared";
 import { useGame } from "@/hooks/use-game";
 import { throttle } from "@/utils/throttle";
 import { getRandomNumber } from "@/utils";
+import { hapticPress, hapticSuccess, hapticError } from "@/utils/haptic";
 
 /**
  * Formats milliseconds into a readable time string (MM:SS or HH:MM:SS)
@@ -61,16 +62,21 @@ export function EnhancedGame() {
     }
   };
 
-  // Calculate display time accounting for pauses
-  const displayTime = useMemo(() => {
-    if (!game?.active || !game.startTime) return 0;
-    const baseTime = elapsedMs;
-    if (isPaused && pauseStart) {
-      // Currently paused, don't count time since pause started
-      return baseTime - pausedTime;
-    }
-    return baseTime - pausedTime;
-  }, [elapsedMs, isPaused, pauseStart, pausedTime, game?.active, game?.startTime]);
+          // Calculate display time accounting for pauses
+          const displayTime = useMemo(() => {
+            if (!game?.active || !game.startTime) return 0;
+            const now = Date.now();
+            const baseTime = elapsedMs;
+            
+            if (isPaused && pauseStart) {
+              // Currently paused: subtract all accumulated pause time + current pause duration
+              const currentPauseDuration = now - pauseStart;
+              return Math.max(0, baseTime - pausedTime - currentPauseDuration);
+            }
+            
+            // Not paused: subtract only accumulated pause time
+            return Math.max(0, baseTime - pausedTime);
+          }, [elapsedMs, isPaused, pauseStart, pausedTime, game?.active, game?.startTime]);
 
   return (
     <section className="w-full neon-card rounded-md p-4 flex flex-col gap-3">
@@ -81,19 +87,25 @@ export function EnhancedGame() {
           <div className="mb-4 text-slate-300">
             Start a game session to track your time and poses tried!
           </div>
-          <button 
-            className="neon-focus bg-pink-700 hover:bg-pink-800 duration-200 text-white rounded-lg px-6 py-3 text-lg font-semibold shadow-lg shadow-pink-500/50"
-            onClick={start}
-          >
-            🎲 Start New Session
-          </button>
+                  <button 
+                    className="neon-focus bg-pink-700 hover:bg-pink-800 duration-200 text-white rounded-lg px-6 py-3 text-lg font-semibold shadow-lg shadow-pink-500/50"
+                    onClick={() => {
+                      hapticSuccess();
+                      start();
+                    }}
+                  >
+                    🎲 Start New Session
+                  </button>
           <div className="mt-4">
-            <button
-              onClick={handleRandomPosition}
-              className="neon-focus bg-purple-600 hover:bg-purple-700 duration-200 text-white rounded-lg px-4 py-2 text-sm"
-            >
-              🎯 Get Random Position
-            </button>
+                    <button
+                      onClick={() => {
+                        hapticPress();
+                        handleRandomPosition();
+                      }}
+                      className="neon-focus bg-purple-600 hover:bg-purple-700 duration-200 text-white rounded-lg px-4 py-2 text-sm"
+                    >
+                      🎯 Get Random Position
+                    </button>
           </div>
         </div>
       )}
@@ -141,28 +153,37 @@ export function EnhancedGame() {
 
           {/* Game Controls */}
           <div className="flex items-center gap-2 flex-wrap justify-center" role="group" aria-label="Game controls">
-            <button 
-              className="neon-focus bg-green-600 hover:bg-green-700 duration-200 text-white rounded-lg px-4 py-2 font-semibold shadow-lg"
-              onClick={throttle(nextPose, 1500)}
-              aria-label="Next pose"
-            >
-              <span aria-hidden="true">➡️</span> Next Pose
-            </button>
-            <button 
-              className="neon-focus bg-yellow-600 hover:bg-yellow-700 duration-200 text-white rounded-lg px-4 py-2 font-semibold shadow-lg"
-              onClick={handlePause}
-              aria-label={isPaused ? "Resume game" : "Pause game"}
-              aria-pressed={isPaused}
-            >
-              <span aria-hidden="true">{isPaused ? '▶️' : '⏸️'}</span> {isPaused ? 'Resume' : 'Pause'}
-            </button>
-            <button 
-              className="neon-focus bg-red-700 hover:bg-red-800 duration-200 text-white rounded-lg px-4 py-2 font-semibold shadow-lg"
-              onClick={end}
-              aria-label="End session"
-            >
-              <span aria-hidden="true">⏹️</span> End Session
-            </button>
+                    <button 
+                      className="neon-focus bg-green-600 hover:bg-green-700 duration-200 text-white rounded-lg px-4 py-2 font-semibold shadow-lg"
+                      onClick={() => {
+                        hapticSuccess();
+                        throttle(nextPose, 1500)();
+                      }}
+                      aria-label="Next pose"
+                    >
+                      <span aria-hidden="true">➡️</span> Next Pose
+                    </button>
+                    <button 
+                      className="neon-focus bg-yellow-600 hover:bg-yellow-700 duration-200 text-white rounded-lg px-4 py-2 font-semibold shadow-lg"
+                      onClick={() => {
+                        hapticPress();
+                        handlePause();
+                      }}
+                      aria-label={isPaused ? "Resume game" : "Pause game"}
+                      aria-pressed={isPaused}
+                    >
+                      <span aria-hidden="true">{isPaused ? '▶️' : '⏸️'}</span> {isPaused ? 'Resume' : 'Pause'}
+                    </button>
+                    <button 
+                      className="neon-focus bg-red-700 hover:bg-red-800 duration-200 text-white rounded-lg px-4 py-2 font-semibold shadow-lg"
+                      onClick={() => {
+                        hapticError();
+                        end();
+                      }}
+                      aria-label="End session"
+                    >
+                      <span aria-hidden="true">⏹️</span> End Session
+                    </button>
           </div>
         </div>
       )}

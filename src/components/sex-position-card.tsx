@@ -1,4 +1,4 @@
-import { useCallback, useState, useEffect } from "react";
+import { useCallback, useState, useEffect, useMemo } from "react";
 import { SEX_LEVELS } from "@/constants";
 
 import { useActions } from "@/hooks";
@@ -6,6 +6,7 @@ import { getRandomNumber } from "@/utils";
 import { ManageLists } from "./manage-lists";
 import { ImageSkeleton } from "./skeleton-loader";
 import { useKeyboardShortcuts } from "@/hooks/use-keyboard-shortcuts";
+import { generateImageSrcSet, getOptimizedImageUrl } from "@/utils/image-utils";
 
 const BADGE_COLORS: Record<string, string> = {
   [SEX_LEVELS.SAFE]: "bg-green-500",
@@ -85,9 +86,31 @@ export function SexPositionCard() {
   const { id, level, title, imageAlt, fileName, description, pros, cons } =
     positionId === 0 || !activePosition ? DEFAULT_POSITION : activePosition;
 
-  // Check for custom image
-  const customImageSrc = id ? localStorage.getItem(`custom_image_${id}`) : null;
-  const imageSrc = customImageSrc || `images/positions/${fileName}`;
+  // Check for custom image and optimize
+  const customImageSrc = useMemo(() => 
+    id ? localStorage.getItem(`custom_image_${id}`) : null,
+    [id]
+  );
+  
+  const imageSrc = useMemo(() => {
+    if (customImageSrc) return customImageSrc;
+    return `images/positions/${fileName}`;
+  }, [customImageSrc, fileName]);
+
+  const imageSrcSet = useMemo(() => {
+    if (customImageSrc) return undefined; // Custom images don't need srcset
+    return generateImageSrcSet('images/positions', fileName);
+  }, [customImageSrc, fileName]);
+
+  const [optimizedSrc, setOptimizedSrc] = useState(imageSrc);
+
+  useEffect(() => {
+    if (!customImageSrc) {
+      getOptimizedImageUrl(imageSrc).then(setOptimizedSrc);
+    } else {
+      setOptimizedSrc(imageSrc);
+    }
+  }, [imageSrc, customImageSrc]);
 
   return (
     <div
@@ -131,31 +154,34 @@ export function SexPositionCard() {
         <ImageSkeleton className="w-full max-w-sm" />
       )}
 
-      <img
-        alt={imageAlt || `${title || 'Position'} ${id ? `#${id}` : ''}`}
-        src={imageSrc}
-        srcSet={customImageSrc ? undefined : `${imageSrc} 1x`}
-        loading="lazy"
-        decoding="async"
-        onLoad={() => setImgLoading(false)}
-        onClick={handleImageClick}
-        onKeyDown={(e) => { 
-          if (e.key === "Enter" || e.key === " ") { 
-            e.preventDefault(); 
-            handleImageClick(); 
-          } 
-        }}
-        draggable
-        onDragStart={(e)=>{ 
-          e.dataTransfer.setData('text/pose-index', String(positionId)); 
-          e.dataTransfer.effectAllowed='copy'; 
-        }}
-        role="button"
-        tabIndex={0}
-        aria-label={`Position ${id ? `#${id}` : ''}: ${title || 'Random position'}. Click to get a new random position.`}
-        className={`cursor-pointer ${localStorage.getItem('invert_positions')==='1' ? 'invert' : ''}`}
-        title="Click to get a new position"
-      />
+              <img
+                alt={imageAlt || `${title || 'Position'} ${id ? `#${id}` : ''}`}
+                src={optimizedSrc}
+                srcSet={imageSrcSet?.srcSet}
+                sizes={imageSrcSet?.sizes || "(max-width: 400px) 100vw, (max-width: 800px) 80vw, 600px"}
+                loading="lazy"
+                decoding="async"
+                onLoad={() => setImgLoading(false)}
+                onClick={handleImageClick}
+                onKeyDown={(e) => { 
+                  if (e.key === "Enter" || e.key === " ") { 
+                    e.preventDefault(); 
+                    handleImageClick(); 
+                  } 
+                }}
+                draggable
+                onDragStart={(e)=>{ 
+                  e.dataTransfer.setData('text/pose-index', String(positionId)); 
+                  e.dataTransfer.effectAllowed='copy'; 
+                }}
+                role="button"
+                tabIndex={0}
+                aria-label={`Position ${id ? `#${id}` : ''}: ${title || 'Random position'}. Click to get a new random position.`}
+                className={`cursor-pointer ${localStorage.getItem('invert_positions')==='1' ? 'invert' : ''}`}
+                title="Click to get a new position"
+                width="600"
+                height="400"
+              />
 
       <h3 className="mt-4">
         {id ? `Position No: ${id}` : "More Than 500 Sex Positions"}
