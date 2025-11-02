@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { fileToDataUrl, loadVault, saveVault, VaultItem } from "@/services/vault";
 
-export function PrivateGallery() {
+interface PrivateGalleryProps {
+  onClose?: () => void;
+}
+
+export function PrivateGallery({ onClose }: PrivateGalleryProps) {
   const [items, setItems] = useState<VaultItem[]>(() => loadVault());
 
   async function onUpload(e: React.ChangeEvent<HTMLInputElement>) {
@@ -24,7 +28,18 @@ export function PrivateGallery() {
 
   return (
     <section className="w-full neon-card rounded-md p-4 flex flex-col gap-3">
-      <h4 className="text-lg neon-accent">Private Gallery</h4>
+      <div className="flex items-center justify-between">
+        <h4 className="text-lg neon-accent">Private Gallery</h4>
+        {onClose && (
+          <button
+            onClick={onClose}
+            className="neon-focus bg-slate-700 hover:bg-slate-600 text-white rounded px-3 py-1"
+            aria-label="Close gallery"
+          >
+            ✕ Close
+          </button>
+        )}
+      </div>
       <input type="file" multiple accept="image/*,video/*" onChange={onUpload} />
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
         {items.map((it) => (

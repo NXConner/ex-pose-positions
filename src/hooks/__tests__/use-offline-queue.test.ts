@@ -2,13 +2,6 @@ import { describe, it, expect, beforeEach, vi } from "vitest";
 import { renderHook, waitFor } from "@testing-library/react";
 import { useOfflineQueue } from "@/hooks/use-offline-queue";
 
-// Mock navigator.onLine
-Object.defineProperty(navigator, 'onLine', {
-  writable: true,
-  configurable: true,
-  value: false,
-});
-
 describe("useOfflineQueue", () => {
   beforeEach(() => {
     localStorage.clear();
@@ -22,7 +15,12 @@ describe("useOfflineQueue", () => {
   });
 
   it("should queue action when offline", () => {
-    navigator.onLine = false;
+    Object.defineProperty(window, 'navigator', {
+      value: { ...navigator, onLine: false },
+      writable: true,
+      configurable: true,
+    });
+    
     const { result } = renderHook(() => useOfflineQueue());
 
     const mockAction = vi.fn(() => Promise.resolve());
@@ -34,7 +32,12 @@ describe("useOfflineQueue", () => {
   });
 
   it("should execute action immediately when online", async () => {
-    navigator.onLine = true;
+    Object.defineProperty(window, 'navigator', {
+      value: { ...navigator, onLine: true },
+      writable: true,
+      configurable: true,
+    });
+    
     const { result } = renderHook(() => useOfflineQueue());
 
     const mockAction = vi.fn(() => Promise.resolve());

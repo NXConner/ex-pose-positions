@@ -30,23 +30,25 @@ describe("useLists", () => {
     const { result } = renderHook(() => useLists());
 
     await waitFor(() => {
-      expect(result.current.lists).toBeDefined();
+      expect(result.current.mine).toBeDefined();
     });
 
-    expect(result.current.lists).toEqual({});
+    expect(result.current.mine).toEqual([]);
+    expect(result.current.theirs).toEqual([]);
   });
 
-  it("should add position to list", async () => {
+  it("should toggle position in list", async () => {
     const { result } = renderHook(() => useLists());
 
     await waitFor(() => {
-      expect(result.current.addToList).toBeDefined();
+      expect(result.current.togglePoseInList).toBeDefined();
     });
 
-    if (result.current.addToList) {
-      await result.current.addToList("favorites", 1);
-      // Verify list was updated
-      expect(result.current.lists?.favorites).toContain(1);
+    if (result.current.togglePoseInList) {
+      await result.current.togglePoseInList(1, "favorites", true);
+      // Verify pose was added
+      const favoriteItem = result.current.mine.find(item => item.poseId === 1);
+      expect(favoriteItem).toBeDefined();
     }
   });
 
@@ -54,18 +56,19 @@ describe("useLists", () => {
     const { result } = renderHook(() => useLists());
 
     await waitFor(() => {
-      expect(result.current.removeFromList).toBeDefined();
+      expect(result.current.togglePoseInList).toBeDefined();
     });
 
     // First add
-    if (result.current.addToList) {
-      await result.current.addToList("favorites", 1);
-    }
-
-    // Then remove
-    if (result.current.removeFromList) {
-      await result.current.removeFromList("favorites", 1);
-      expect(result.current.lists?.favorites).not.toContain(1);
+    if (result.current.togglePoseInList) {
+      await result.current.togglePoseInList(1, "favorites", true);
+      const before = result.current.mine.filter(item => item.poseId === 1);
+      expect(before.length).toBeGreaterThan(0);
+      
+      // Then remove
+      await result.current.togglePoseInList(1, "favorites", false);
+      const after = result.current.mine.filter(item => item.poseId === 1);
+      expect(after.length).toBe(0);
     }
   });
 });

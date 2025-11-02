@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { hapticError } from "@/utils/haptic";
+import { hapticError, hapticPress } from "@/utils/haptic";
 
 interface ErrorToastProps {
   message: string;

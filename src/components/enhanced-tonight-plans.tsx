@@ -3,7 +3,7 @@ import { usePlans } from "@/hooks/use-plans";
 import { useActions } from "@/hooks";
 import { PositionsGalleryModal } from "./positions-gallery-modal";
 import { getRandomNumber } from "@/utils";
-import { sanitizeText, sanitizeForFirebase } from "@/utils/sanitize";
+import { sanitizeForFirebase } from "@/utils/sanitize";
 
 type PlanTemplate = {
   name: string;

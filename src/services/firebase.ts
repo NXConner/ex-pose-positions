@@ -19,7 +19,7 @@ function isValidConfig(): boolean {
  * @returns Object containing app, auth, and db instances (or null if not configured)
  */
 export function getFirebase() {
-  if (!isValidConfig()) {
+  if (!isValidConfig() || !firebaseConfig) {
     return { app: null as any, auth: null as any, db: null as any };
   }
   const app = getApps().length ? getApps()[0]! : initializeApp(firebaseConfig);

@@ -1,6 +1,5 @@
 import { useMemo, useState } from "react";
 import { useActions } from "@/hooks";
-import { useShared } from "@/hooks/use-shared";
 import { useGame } from "@/hooks/use-game";
 import { throttle } from "@/utils/throttle";
 import { getRandomNumber } from "@/utils";
@@ -29,7 +28,6 @@ function formatMs(ms: number): string {
 
 export function EnhancedGame() {
   const { filteredData, setPositionId } = useActions();
-  const { features } = useShared();
   const { game, elapsedMs, start, nextPose, end } = useGame(filteredData.length);
   const [isPaused, setIsPaused] = useState(false);
   const [pauseStart, setPauseStart] = useState<number | null>(null);

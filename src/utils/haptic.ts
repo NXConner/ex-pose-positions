@@ -32,13 +32,13 @@ export const HAPTIC = {
   /** Strong tap (30ms) */
   STRONG: 30,
   /** Success pattern */
-  SUCCESS: [10, 50, 10],
+  SUCCESS: [10, 50, 10] as number[],
   /** Error pattern */
-  ERROR: [20, 50, 20, 50, 20],
+  ERROR: [20, 50, 20, 50, 20] as number[],
   /** Warning pattern */
-  WARNING: [20, 30, 20],
+  WARNING: [20, 30, 20] as number[],
   /** Double tap */
-  DOUBLE: [10, 50, 10],
+  DOUBLE: [10, 50, 10] as number[],
 } as const;
 
 /**

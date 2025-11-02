@@ -1,5 +1,4 @@
-import { useState, useCallback } from "react";
-import { useActions } from "@/hooks";
+import { useState } from "react";
 import { ManageLists } from "./manage-lists";
 import { PrivateGallery } from "./private-gallery";
 
