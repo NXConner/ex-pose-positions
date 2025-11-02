@@ -21,13 +21,13 @@ createRoot(document.getElementById("app")!).render(
   <StrictMode>
     <ErrorBoundary>
       <I18nProvider>
-        <AppContextProvider>
-          <BrowserRouter>
+        <BrowserRouter>
+          <AppContextProvider>
             <Routes>
               <Route path="*" element={<App />} />
             </Routes>
-          </BrowserRouter>
-        </AppContextProvider>
+          </AppContextProvider>
+        </BrowserRouter>
       </I18nProvider>
     </ErrorBoundary>
     <DevTools />
