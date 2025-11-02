@@ -1,6 +1,45 @@
-import { Footer, Header, Filters, SexPositionCard, Partner, Tonight, TonightPlans, MyLists, Game, Stats, PhotoIdeas, OfflineBadge, UpdateToast, Settings, Profile, CameraSync, PrivateGallery, PinLock, PositionsGallery } from "@/components";
+import { useState, useMemo } from "react";
+import { 
+  Header, 
+  SexPositionCard, 
+  EnhancedPartnerConnection, 
+  EnhancedTonightPlans, 
+  MyLists, 
+  EnhancedGame, 
+  Stats, 
+  PhotoIdeas, 
+  OfflineBadge, 
+  UpdateToast, 
+  Settings, 
+  CameraSync, 
+  PrivateGallery, 
+  PinLock, 
+  PositionsGallery,
+  TopNavBar,
+  Filters,
+  SignIn
+} from "@/components";
+import { useActions } from "@/hooks";
 
 export function App() {
+  const [showFilters, setShowFilters] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const { filteredData, setPositionId } = useActions();
+  
+  // Apply search filter to filteredData
+  const searchFilteredData = useMemo(() => {
+    if (!searchTerm.trim()) return filteredData;
+    const term = searchTerm.toLowerCase();
+    return filteredData.filter(item =>
+      item.title.toLowerCase().includes(term) ||
+      item.id.toString().includes(term)
+    );
+  }, [filteredData, searchTerm]);
+  
+  // When search changes, optionally scroll to matching positions or show in gallery
+  // For now, search is primarily used in PositionsGallery component
+
   return (
     <div
       style={{ width: "92%", zIndex: 1 }}
@@ -22,29 +61,37 @@ export function App() {
       {/* HEADER */}
       <Header />
 
-      {/* TONIGHT'S PLANS (Top) */}
-      <TonightPlans />
+      {/* TOP NAVIGATION BAR */}
+      <TopNavBar
+        onFiltersToggle={() => setShowFilters(!showFilters)}
+        onSettingsToggle={() => setShowSettings(!showSettings)}
+        searchTerm={searchTerm}
+        onSearchChange={setSearchTerm}
+      />
 
-      {/* FILTER (above position image) */}
-      <Filters />
+      {/* FILTERS (Conditional) */}
+      {showFilters && <Filters />}
 
-      {/* POSITION CARD */}
+      {/* POSITION CARD (Now at top after header and nav) */}
       <SexPositionCard />
+
+      {/* SIGN IN (if not signed in) */}
+      <SignIn />
+
+      {/* TONIGHT'S PLANS (Enhanced) */}
+      <EnhancedTonightPlans />
 
       {/* CAMERA SYNC directly below image */}
       <CameraSync />
 
-      {/* TONIGHT */}
-      <Tonight />
-
-      {/* PARTNER */}
-      <Partner />
+      {/* PARTNER CONNECTION (Enhanced) */}
+      <EnhancedPartnerConnection />
 
       {/* MY LISTS */}
       <MyLists />
 
-      {/* GAME */}
-      <Game />
+      {/* GAME (Enhanced with timer) */}
+      <EnhancedGame />
 
       {/* STATS */}
       <Stats />
@@ -55,19 +102,16 @@ export function App() {
       {/* GALLERY */}
       <PositionsGallery />
 
-      {/* SETTINGS */}
-      <Settings />
-
-      {/* PROFILE */}
-      <Profile />
+      {/* SETTINGS (Conditional, merged with Profile) */}
+      {showSettings && <Settings />}
 
       {/* PRIVATE GALLERY */}
       <PrivateGallery />
 
-      {/* CAMERA SYNC (beta) - removed duplicate bottom instance */}
-
       {/* Footer */}
-      <Footer />
+      <div className="w-full text-center text-sm text-slate-400 mt-5">
+        <p>Made with ❤️</p>
+      </div>
 
       {/* Offline */}
       <OfflineBadge />

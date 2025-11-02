@@ -1,7 +1,6 @@
 const GitHubStarsBadgeURL =
   "https://img.shields.io/github/stars/raminr77/random-sex-position?style=social&link=https%3A%2F%2Fgithub.com%2Framinr77%2Frandom-sex-position";
 
-import { ThemeToggle } from "./theme-toggle";
 import { VersionBadge } from "./version-badge";
 import { RandomDice } from "./random-dice";
 
@@ -13,7 +12,6 @@ export function Header() {
         <div className="flex items-center gap-3">
           <RandomDice />
           <VersionBadge />
-          <ThemeToggle />
         </div>
       </div>
       <img alt="GitHub Repo stars" src={GitHubStarsBadgeURL} />

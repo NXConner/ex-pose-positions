@@ -53,18 +53,66 @@ body {
 
 .neon-accent {
   color: var(--accent);
-  text-shadow: 0 0 6px color-mix(in oklab, var(--accent) 60%, transparent),
-    0 0 18px color-mix(in oklab, var(--accent) 35%, transparent);
+  text-shadow: 0 0 10px color-mix(in oklab, var(--accent) 80%, transparent),
+    0 0 25px color-mix(in oklab, var(--accent) 60%, transparent),
+    0 0 40px color-mix(in oklab, var(--accent) 40%, transparent);
+  animation: glow-pulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow-pulse {
+  from {
+    text-shadow: 0 0 10px color-mix(in oklab, var(--accent) 80%, transparent),
+      0 0 25px color-mix(in oklab, var(--accent) 60%, transparent),
+      0 0 40px color-mix(in oklab, var(--accent) 40%, transparent);
+  }
+  to {
+    text-shadow: 0 0 15px color-mix(in oklab, var(--accent) 90%, transparent),
+      0 0 35px color-mix(in oklab, var(--accent) 70%, transparent),
+      0 0 55px color-mix(in oklab, var(--accent) 50%, transparent);
+  }
 }
 
 .neon-card {
   box-shadow: 0 0 0 1px var(--card-border),
-    0 0 14px color-mix(in oklab, var(--accent) 16%, transparent);
+    0 0 20px color-mix(in oklab, var(--accent) 25%, transparent),
+    0 0 40px color-mix(in oklab, var(--accent) 15%, transparent);
   background: var(--card-bg);
+  animation: card-glow 3s ease-in-out infinite alternate;
+}
+
+@keyframes card-glow {
+  from {
+    box-shadow: 0 0 0 1px var(--card-border),
+      0 0 20px color-mix(in oklab, var(--accent) 25%, transparent),
+      0 0 40px color-mix(in oklab, var(--accent) 15%, transparent);
+  }
+  to {
+    box-shadow: 0 0 0 1px var(--card-border),
+      0 0 30px color-mix(in oklab, var(--accent) 35%, transparent),
+      0 0 60px color-mix(in oklab, var(--accent) 20%, transparent);
+  }
 }
 
 .neon-focus:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
-  box-shadow: 0 0 10px color-mix(in oklab, var(--accent) 40%, transparent);
+  box-shadow: 0 0 15px color-mix(in oklab, var(--accent) 60%, transparent),
+    0 0 30px color-mix(in oklab, var(--accent) 40%, transparent);
+}
+
+/* Custom theme variables */
+:root {
+  --primary-color: #e60076;
+  --secondary-color: #9b5cff;
+  --glow-intensity: 20px;
+  --blur-intensity: 6px;
+  --animation-speed: 1s;
+}
+
+.animations-enabled .neon-accent {
+  animation: glow-pulse var(--animation-speed) ease-in-out infinite alternate;
+}
+
+.animations-enabled .neon-card {
+  animation: card-glow calc(var(--animation-speed) * 1.5) ease-in-out infinite alternate;
 }

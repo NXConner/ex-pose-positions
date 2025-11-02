@@ -59,6 +59,10 @@ export function SexPositionCard() {
   const { id, level, title, imageAlt, fileName, description, pros, cons } =
     positionId === 0 || !activePosition ? DEFAULT_POSITION : activePosition;
 
+  // Check for custom image
+  const customImageSrc = id ? localStorage.getItem(`custom_image_${id}`) : null;
+  const imageSrc = customImageSrc || `images/positions/${fileName}`;
+
   return (
     <div
       title={title}
@@ -103,8 +107,8 @@ export function SexPositionCard() {
 
       <img
         alt={imageAlt}
-        src={`images/positions/${fileName}`}
-        srcSet={`images/positions/${fileName} 1x`}
+        src={imageSrc}
+        srcSet={customImageSrc ? undefined : `${imageSrc} 1x`}
         loading="lazy"
         decoding="async"
         onLoad={() => setImgLoading(false)}
