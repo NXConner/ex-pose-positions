@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { 
   Header, 
   SexPositionCard, 
@@ -27,18 +27,30 @@ export function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const { filteredData, setPositionId } = useActions();
   
-  // Apply search filter to filteredData
+  // Apply search filter globally - when user searches, filter positions
   const searchFilteredData = useMemo(() => {
     if (!searchTerm.trim()) return filteredData;
     const term = searchTerm.toLowerCase();
-    return filteredData.filter(item =>
+    const filtered = filteredData.filter(item =>
       item.title.toLowerCase().includes(term) ||
-      item.id.toString().includes(term)
+      item.id.toString().includes(term) ||
+      (item.description && item.description.toLowerCase().includes(term))
     );
+    return filtered;
   }, [filteredData, searchTerm]);
   
-  // When search changes, optionally scroll to matching positions or show in gallery
-  // For now, search is primarily used in PositionsGallery component
+  // Auto-scroll to first match when search term changes (debounced)
+  useEffect(() => {
+    if (!searchTerm.trim() || searchFilteredData.length === 0) return;
+    // Optionally scroll to first match or highlight it
+    const firstMatch = searchFilteredData[0];
+    if (firstMatch) {
+      const index = filteredData.findIndex(p => p.id === firstMatch.id);
+      if (index !== -1) {
+        setPositionId(index);
+      }
+    }
+  }, [searchTerm]); // Only on search term change, not on filteredData
 
   return (
     <div

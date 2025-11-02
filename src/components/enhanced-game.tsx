@@ -51,7 +51,16 @@ export function EnhancedGame() {
     }
   };
 
-  const displayTime = isPaused && pauseStart ? elapsedMs : elapsedMs - pausedTime;
+  // Calculate display time accounting for pauses
+  const displayTime = useMemo(() => {
+    if (!game?.active || !game.startTime) return 0;
+    const baseTime = elapsedMs;
+    if (isPaused && pauseStart) {
+      // Currently paused, don't count time since pause started
+      return baseTime - pausedTime;
+    }
+    return baseTime - pausedTime;
+  }, [elapsedMs, isPaused, pauseStart, pausedTime, game?.active, game?.startTime]);
 
   return (
     <section className="w-full neon-card rounded-md p-4 flex flex-col gap-3">
