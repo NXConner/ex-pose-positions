@@ -1,25 +1,28 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, lazy, Suspense } from "react";
 import { 
   Header, 
   SexPositionCard, 
-  EnhancedPartnerConnection, 
-  EnhancedTonightPlans, 
-  MyLists, 
-  EnhancedGame, 
-  Stats, 
-  PhotoIdeas, 
-  OfflineBadge, 
-  UpdateToast, 
-  Settings, 
-  CameraSync, 
-  PrivateGallery, 
-  PinLock, 
-  PositionsGallery,
   TopNavBar,
   Filters,
-  SignIn
+  OfflineBadge, 
+  UpdateToast, 
+  PinLock
 } from "@/components";
 import { useActions } from "@/hooks";
+import { LazyWrapper } from "@/components/lazy-wrapper";
+
+// Lazy load heavy components
+const EnhancedPartnerConnection = lazy(() => import("@/components/enhanced-partner-connection").then(m => ({ default: m.EnhancedPartnerConnection })));
+const EnhancedTonightPlans = lazy(() => import("@/components/enhanced-tonight-plans").then(m => ({ default: m.EnhancedTonightPlans })));
+const EnhancedGame = lazy(() => import("@/components/enhanced-game").then(m => ({ default: m.EnhancedGame })));
+const MyLists = lazy(() => import("@/components/my-lists").then(m => ({ default: m.MyLists })));
+const Stats = lazy(() => import("@/components/stats").then(m => ({ default: m.Stats })));
+const PhotoIdeas = lazy(() => import("@/components/photo-ideas").then(m => ({ default: m.PhotoIdeas })));
+const PositionsGallery = lazy(() => import("@/components/positions-gallery").then(m => ({ default: m.PositionsGallery })));
+const Settings = lazy(() => import("@/components/settings").then(m => ({ default: m.Settings })));
+const CameraSync = lazy(() => import("@/components/camera-sync").then(m => ({ default: m.CameraSync })));
+const PrivateGallery = lazy(() => import("@/components/private-gallery").then(m => ({ default: m.PrivateGallery })));
+const SignIn = lazy(() => import("@/components/sign-in").then(m => ({ default: m.SignIn })));
 
 export function App() {
   const [showFilters, setShowFilters] = useState(false);
@@ -88,37 +91,61 @@ export function App() {
       <SexPositionCard />
 
       {/* SIGN IN (if not signed in) */}
-      <SignIn />
+      <LazyWrapper>
+        <SignIn />
+      </LazyWrapper>
 
       {/* TONIGHT'S PLANS (Enhanced) */}
-      <EnhancedTonightPlans />
+      <LazyWrapper>
+        <EnhancedTonightPlans />
+      </LazyWrapper>
 
       {/* CAMERA SYNC directly below image */}
-      <CameraSync />
+      <LazyWrapper>
+        <CameraSync />
+      </LazyWrapper>
 
       {/* PARTNER CONNECTION (Enhanced) */}
-      <EnhancedPartnerConnection />
+      <LazyWrapper>
+        <EnhancedPartnerConnection />
+      </LazyWrapper>
 
       {/* MY LISTS */}
-      <MyLists />
+      <LazyWrapper>
+        <MyLists />
+      </LazyWrapper>
 
       {/* GAME (Enhanced with timer) */}
-      <EnhancedGame />
+      <LazyWrapper>
+        <EnhancedGame />
+      </LazyWrapper>
 
       {/* STATS */}
-      <Stats />
+      <LazyWrapper>
+        <Stats />
+      </LazyWrapper>
 
       {/* PHOTO IDEAS */}
-      <PhotoIdeas />
+      <LazyWrapper>
+        <PhotoIdeas />
+      </LazyWrapper>
 
       {/* GALLERY */}
-      <PositionsGallery />
+      <LazyWrapper>
+        <PositionsGallery />
+      </LazyWrapper>
 
       {/* SETTINGS (Conditional, merged with Profile) */}
-      {showSettings && <Settings />}
+      {showSettings && (
+        <LazyWrapper>
+          <Settings />
+        </LazyWrapper>
+      )}
 
       {/* PRIVATE GALLERY */}
-      <PrivateGallery />
+      <LazyWrapper>
+        <PrivateGallery />
+      </LazyWrapper>
 
       {/* Footer */}
       <div className="w-full text-center text-sm text-slate-400 mt-5">

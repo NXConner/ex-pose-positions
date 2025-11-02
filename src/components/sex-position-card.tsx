@@ -4,6 +4,7 @@ import { SEX_LEVELS } from "@/constants";
 import { useActions } from "@/hooks";
 import { getRandomNumber } from "@/utils";
 import { ManageLists } from "./manage-lists";
+import { ImageSkeleton } from "./skeleton-loader";
 
 const BADGE_COLORS: Record<string, string> = {
   [SEX_LEVELS.SAFE]: "bg-green-500",
@@ -102,22 +103,31 @@ export function SexPositionCard() {
       )}
 
       {imgLoading && (
-        <div className="w-full max-w-sm h-64 bg-slate-200 dark:bg-slate-700 rounded animate-pulse" />
+        <ImageSkeleton className="w-full max-w-sm" />
       )}
 
       <img
-        alt={imageAlt}
+        alt={imageAlt || `${title || 'Position'} ${id ? `#${id}` : ''}`}
         src={imageSrc}
         srcSet={customImageSrc ? undefined : `${imageSrc} 1x`}
         loading="lazy"
         decoding="async"
         onLoad={() => setImgLoading(false)}
         onClick={handleImageClick}
-        onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleImageClick(); } }}
+        onKeyDown={(e) => { 
+          if (e.key === "Enter" || e.key === " ") { 
+            e.preventDefault(); 
+            handleImageClick(); 
+          } 
+        }}
         draggable
-        onDragStart={(e)=>{ e.dataTransfer.setData('text/pose-index', String(positionId)); e.dataTransfer.effectAllowed='copy'; }}
+        onDragStart={(e)=>{ 
+          e.dataTransfer.setData('text/pose-index', String(positionId)); 
+          e.dataTransfer.effectAllowed='copy'; 
+        }}
         role="button"
         tabIndex={0}
+        aria-label={`Position ${id ? `#${id}` : ''}: ${title || 'Random position'}. Click to get a new random position.`}
         className={`cursor-pointer ${localStorage.getItem('invert_positions')==='1' ? 'invert' : ''}`}
         title="Click to get a new position"
       />

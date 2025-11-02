@@ -130,24 +130,28 @@ export function EnhancedGame() {
           )}
 
           {/* Game Controls */}
-          <div className="flex items-center gap-2 flex-wrap justify-center">
+          <div className="flex items-center gap-2 flex-wrap justify-center" role="group" aria-label="Game controls">
             <button 
               className="neon-focus bg-green-600 hover:bg-green-700 duration-200 text-white rounded-lg px-4 py-2 font-semibold shadow-lg"
               onClick={throttle(nextPose, 1500)}
+              aria-label="Next pose"
             >
-              ➡️ Next Pose
+              <span aria-hidden="true">➡️</span> Next Pose
             </button>
             <button 
               className="neon-focus bg-yellow-600 hover:bg-yellow-700 duration-200 text-white rounded-lg px-4 py-2 font-semibold shadow-lg"
               onClick={handlePause}
+              aria-label={isPaused ? "Resume game" : "Pause game"}
+              aria-pressed={isPaused}
             >
-              {isPaused ? '▶️ Resume' : '⏸️ Pause'}
+              <span aria-hidden="true">{isPaused ? '▶️' : '⏸️'}</span> {isPaused ? 'Resume' : 'Pause'}
             </button>
             <button 
               className="neon-focus bg-red-700 hover:bg-red-800 duration-200 text-white rounded-lg px-4 py-2 font-semibold shadow-lg"
               onClick={end}
+              aria-label="End session"
             >
-              ⏹️ End Session
+              <span aria-hidden="true">⏹️</span> End Session
             </button>
           </div>
         </div>
