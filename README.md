@@ -3,14 +3,22 @@
 ## Setup
 
 1. pnpm install
-2. Create .env with Firebase keys:
+2. Copy `.env.example` to `.env` and fill in Firebase keys:
+   ```bash
+   cp .env.example .env
+   ```
+   Then edit `.env` with your Firebase configuration:
    - VITE_FIREBASE_API_KEY
    - VITE_FIREBASE_AUTH_DOMAIN
    - VITE_FIREBASE_PROJECT_ID
    - VITE_FIREBASE_STORAGE_BUCKET
    - VITE_FIREBASE_MESSAGING_SENDER_ID
    - VITE_FIREBASE_APP_ID
+   
+   Get these from: https://console.firebase.google.com/project/ex-pose-positions/settings/general
 3. pnpm dev (refresh if already running)
+   
+   **Note**: App will work without Firebase keys, but partner features will be disabled.
 
 ## Features
 - Partner linking (anonymous)
