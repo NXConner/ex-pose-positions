@@ -84,20 +84,20 @@ export function SexPositionCard() {
       {total > 0 && (
         <>
           <button
-            aria-label="Previous"
+            aria-label="Previous position"
             onClick={goPrev}
-            className="absolute left-1 top-1/2 -translate-y-1/2 bg-slate-900/70 text-white rounded-full w-12 h-12 max-sm:w-14 max-sm:h-14 flex items-center justify-center neon-focus"
-            title="Previous"
+            className="absolute left-1 top-1/2 -translate-y-1/2 bg-slate-900/70 text-white rounded-full w-12 h-12 max-sm:w-14 max-sm:h-14 flex items-center justify-center neon-focus hover:bg-slate-800/90 transition-colors"
+            title="Previous position"
           >
-            <span className="text-lg">&#60;</span>
+            <span className="text-lg" aria-hidden="true">&#60;</span>
           </button>
           <button
-            aria-label="Next random"
+            aria-label="Next random position"
             onClick={goNextRandom}
-            className="absolute right-1 top-1/2 -translate-y-1/2 bg-slate-900/70 text-white rounded-full w-12 h-12 max-sm:w-14 max-sm:h-14 flex items-center justify-center neon-focus"
-            title="Next random"
+            className="absolute right-1 top-1/2 -translate-y-1/2 bg-slate-900/70 text-white rounded-full w-12 h-12 max-sm:w-14 max-sm:h-14 flex items-center justify-center neon-focus hover:bg-slate-800/90 transition-colors"
+            title="Next random position"
           >
-            <span className="text-lg">&#62;</span>
+            <span className="text-lg" aria-hidden="true">&#62;</span>
           </button>
         </>
       )}
