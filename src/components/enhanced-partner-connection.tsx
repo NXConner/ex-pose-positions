@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useShared } from "@/hooks/use-shared";
 import { signInAnonymously } from "firebase/auth";
 import { getFirebase } from "@/services/firebase";
+import { sanitizeForFirebase } from "@/utils/sanitize";
 
 export function EnhancedPartnerConnection() {
   const { me, partner, savePartner, shared, features } = useShared();
@@ -91,10 +92,15 @@ export function EnhancedPartnerConnection() {
             <div className="text-sm text-slate-400 mb-2">Partner's User ID</div>
             <div className="flex items-center gap-2">
               <input
+                className="text"
                 className="flex-1 bg-slate-800 text-white rounded px-3 py-2 font-mono text-sm"
                 value={input}
-                onChange={(e) => setInput(e.target.value)}
+                onChange={(e) => {
+                  const sanitized = sanitizeForFirebase(e.target.value, 200);
+                  setInput(sanitized || "");
+                }}
                 placeholder="Paste your partner's User ID here"
+                maxLength={200}
               />
               <button
                 onClick={handleConnect}

@@ -14,6 +14,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:ui": "vitest",
+    "test:integration": "vitest run tests/integration",
+    "test:all": "pnpm test && pnpm test:integration && pnpm e2e",
     "cap:sync": "pnpm run build && npx cap sync",
     "cap:android": "npx cap open android",
     "e2e": "playwright test",
@@ -21,7 +23,9 @@
     "k6": "k6 run tests/load/k6_smoke.js",
     "dev:all": "powershell -ExecutionPolicy Bypass -File ./scripts/dev.ps1 -WithLoad",
     "data:lint": "node --loader ts-node/esm ./scripts/data-lint.ts",
-    "android:build": "powershell -ExecutionPolicy Bypass -File ./scripts/build-android.ps1"
+    "android:build": "powershell -ExecutionPolicy Bypass -File ./scripts/build-android.ps1",
+    "bundle:check": "node scripts/check-bundle-size.js",
+    "lighthouse": "lhci autorun"
   },
   "dependencies": {
     "@capacitor/android": "^7.4.4",

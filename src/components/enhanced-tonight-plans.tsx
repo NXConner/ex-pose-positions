@@ -3,6 +3,7 @@ import { usePlans } from "@/hooks/use-plans";
 import { useActions } from "@/hooks";
 import { PositionsGalleryModal } from "./positions-gallery-modal";
 import { getRandomNumber } from "@/utils";
+import { sanitizeText, sanitizeForFirebase } from "@/utils/sanitize";
 
 type PlanTemplate = {
   name: string;
@@ -123,7 +124,11 @@ export function EnhancedTonightPlans() {
             className="bg-slate-900 text-white rounded-lg px-3 py-2 border border-slate-600 focus:border-pink-500 focus:outline-none neon-focus"
             placeholder="Where? (optional)"
             value={place}
-            onChange={(e) => setPlace(e.target.value)}
+            onChange={(e) => {
+              const sanitized = sanitizeForFirebase(e.target.value, 200);
+              setPlace(sanitized || "");
+            }}
+            maxLength={200}
           />
         </div>
 
@@ -131,7 +136,11 @@ export function EnhancedTonightPlans() {
           className="bg-slate-900 text-white rounded-lg px-3 py-2 border border-slate-600 focus:border-pink-500 focus:outline-none neon-focus min-h-[80px]"
           placeholder="Add notes or special requests..."
           value={notes}
-          onChange={(e) => setNotes(e.target.value)}
+          onChange={(e) => {
+            const sanitized = sanitizeForFirebase(e.target.value, 1000);
+            setNotes(sanitized || "");
+          }}
+          maxLength={1000}
         />
 
         <div className="flex items-center gap-2">
