@@ -33,16 +33,30 @@ export function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const { filteredData, setPositionId } = useActions();
   
-  // Apply search filter globally - when user searches, filter positions
+  // Apply search filter globally - when user searches, filter positions with enhanced matching
   const searchFilteredData = useMemo(() => {
     if (!searchTerm.trim()) return filteredData;
-    const term = searchTerm.toLowerCase();
-    const filtered = filteredData.filter(item =>
-      item.title.toLowerCase().includes(term) ||
-      item.id.toString().includes(term) ||
-      (item.description && item.description.toLowerCase().includes(term))
-    );
-    return filtered;
+    const term = searchTerm.toLowerCase().trim();
+    
+    // Enhanced search: title, ID, description, pros, cons
+    const filtered = filteredData.filter(item => {
+      const titleMatch = item.title.toLowerCase().includes(term);
+      const idMatch = item.id.toString().includes(term);
+      const descMatch = item.description?.toLowerCase().includes(term) ?? false;
+      const prosMatch = item.pros?.some(p => p.toLowerCase().includes(term)) ?? false;
+      const consMatch = item.cons?.some(c => c.toLowerCase().includes(term)) ?? false;
+      
+      return titleMatch || idMatch || descMatch || prosMatch || consMatch;
+    });
+    
+    // Sort by relevance: exact matches first, then title matches, then others
+    return filtered.sort((a, b) => {
+      const aTitleExact = a.title.toLowerCase() === term ? 0 : a.title.toLowerCase().startsWith(term) ? 1 : 2;
+      const bTitleExact = b.title.toLowerCase() === term ? 0 : b.title.toLowerCase().startsWith(term) ? 1 : 2;
+      
+      if (aTitleExact !== bTitleExact) return aTitleExact - bTitleExact;
+      return a.id - b.id;
+    });
   }, [filteredData, searchTerm]);
   
   // Auto-scroll to first match when search term changes (debounced)
@@ -118,6 +132,10 @@ export function App() {
         onSettingsToggle={() => setShowSettings(!showSettings)}
         searchTerm={searchTerm}
         onSearchChange={setSearchTerm}
+        searchResults={{
+          total: filteredData.length,
+          matches: searchFilteredData.length
+        }}
       />
 
       {/* FILTERS (Conditional) */}

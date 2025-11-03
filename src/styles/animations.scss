@@ -67,6 +67,15 @@
   }
 }
 
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
 /* Animation classes */
 .animate-fade-in {
   animation: fadeIn 0.3s ease-out;
@@ -90,6 +99,10 @@
 
 .animate-bounce {
   animation: bounce 0.6s ease-in-out;
+}
+
+.animate-shimmer {
+  animation: shimmer 2s linear infinite;
 }
 
 /* Transition utilities */
