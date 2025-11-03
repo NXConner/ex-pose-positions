@@ -155,9 +155,13 @@ export function EnhancedGame() {
                       className="neon-focus bg-green-600 hover:bg-green-700 duration-200 text-white rounded-lg px-4 py-2 font-semibold shadow-lg"
                       onClick={() => {
                         hapticSuccess();
-                        throttle(nextPose, 1500)();
+                        if (!isPaused) {
+                          const throttledNext = throttle(nextPose, 1500);
+                          throttledNext();
+                        }
                       }}
                       aria-label="Next pose"
+                      disabled={isPaused}
                     >
                       <span aria-hidden="true">➡️</span> Next Pose
                     </button>
