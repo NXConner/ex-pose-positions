@@ -21,30 +21,92 @@
    **Note**: App will work without Firebase keys, but partner features will be disabled.
 
 ## Features
-- Partner linking (anonymous)
-- Shared Randomizer (Tonight)
-- Tonight's Plans (propose/respond/notes)
-- Shared/Custom Lists + merged view
-- Real-Time Game + Stats
-- Photo Ideas (Solo/Couples/Tips)
-- Theme selector (Dark/Neon) with customization
-- Offline support (SW) + indicator
-- Drag-and-drop: drop the position image onto Tonight's Plans to add, or onto a list chip in My Lists to auto-add
-- Positions Gallery to browse/search and jump to any position
-- Camera Sync (local-only by default): enable camera, Start/Join with countdown; TURN relay optional; save to device
-- PIN Lock (4–6 digits) with auto-lock on screen off
-- Keyboard shortcuts (Ctrl+F for filters, Ctrl+K or / for search, etc.)
-- Custom image upload to replace position images
-- Performance monitoring (dev mode)
-- Enhanced accessibility (ARIA labels, keyboard navigation)
-- Code splitting & lazy loading for optimal performance
+
+### Core Features
+- **Partner Linking** - Anonymous linking with real-time sync
+- **Shared Randomizer** - Simultaneous pose suggestions for partners
+- **Tonight's Plans** - Proposal/response system with notes
+- **Shared/Custom Lists** - Favorites, Let's Try, Done It + custom lists with merged view
+- **Real-Time Game** - Timer, streak counter, session tracking with pause/resume
+- **Stats & Achievements** - Track longest time, streak, total poses tried
+- **Photo Ideas** - Solo/Couples/Tips boudoir photography prompts
+- **Positions Gallery** - Browse all positions with search and quick jump
+
+### Security & Privacy
+- **PIN Lock** - 4-6 digit PIN with auto-lock on screen off
+- **Private Gallery** - PIN-locked personal media storage
+- **Input Sanitization** - Comprehensive XSS and injection prevention
+- **Firestore Security Rules** - Hardened with comprehensive validation
+- **Privacy-First Analytics** - Opt-in only, no PII tracking
+
+### UI/UX Features
+- **Advanced Search** - Search by title, ID, description, pros, cons with history
+- **Theme System** - Dark/Neon/High-Contrast themes with full customization
+- **Drag-and-Drop** - Drop positions onto Tonight's Plans or lists
+- **Keyboard Shortcuts** - Full keyboard navigation (see below)
+- **Skeleton Loaders** - Loading states for all async operations
+- **Error Toasts** - Categorized, user-friendly error messages with retry
+- **Responsive Design** - Mobile-first with tablet and desktop optimization
+- **Enhanced Accessibility** - WCAG AAA compliance, ARIA labels, screen reader support
+
+### Performance & Offline
+- **Offline Support** - Service Worker with smart caching
+- **Offline Queue** - Auto-retry queued actions when back online
+- **Code Splitting** - Intelligent chunking for optimal bundle size
+- **Lazy Loading** - Components and images loaded on demand
+- **Image Optimization** - WebP support, responsive images, lazy loading
+- **Performance Monitoring** - Built-in performance tracking (dev mode)
+
+### Developer Features
+- **TypeScript Strict Mode** - Full type safety enabled
+- **Comprehensive Testing** - Unit, integration, and E2E test coverage
+- **Error Boundaries** - Enhanced error handling with categorization
+- **Environment Validation** - Build-time and runtime env var validation
+- **Dev Tools** - Performance monitor, analytics viewer, shortcuts help
+
+## Keyboard Shortcuts
+
+- `Ctrl+F` or `Ctrl+Shift+F` - Toggle filters
+- `Ctrl+,` - Toggle settings
+- `Ctrl+K` or `/` - Focus search
+- `R` - Get random position
+- `ArrowLeft` - Previous position
+- `ArrowRight` - Next random position
+- `L` - Open manage lists
+- `Escape` - Close modals/dropdowns
+- `Enter` - Submit search (when in search box)
+
+## Search Features
+
+- **Multi-field Search** - Searches title, ID, description, pros, and cons
+- **Search History** - Recent searches saved automatically
+- **Search Suggestions** - Dropdown with history and suggestions
+- **Relevance Sorting** - Exact matches first, then title matches
+- **Result Counter** - Shows matches/total positions
 
 ## Development
-- Lint: pnpm lint
-- Build: pnpm build
-- CI: GitHub Actions workflow `ci.yml`
-- Tests: `pnpm test` (Vitest)
-- Firebase Emulator: `firebase emulators:start` (requires Firebase CLI)
+
+### Code Quality
+- **Lint**: `pnpm lint` - Run ESLint with accessibility rules
+- **Type Check**: `pnpm build` - TypeScript compilation check
+- **Format**: Code is auto-formatted with ESLint
+
+### Testing
+- **Unit Tests**: `pnpm test` - Run all unit tests (Vitest)
+- **Test UI**: `pnpm test:ui` - Interactive test runner
+- **Test Coverage**: `pnpm test:coverage` - Generate coverage report
+- **Watch Mode**: `pnpm test:watch` - Watch mode for TDD
+- **Integration Tests**: `pnpm test:integration` - Run integration tests
+- **E2E Tests**: `pnpm e2e` - Run Playwright end-to-end tests
+- **All Tests**: `pnpm test:all` - Run unit, integration, and E2E tests
+
+### CI/CD
+- GitHub Actions workflow `ci.yml` runs on every PR
+- Automated linting, type checking, and testing
+- Firebase deployment on merge to `main`
+
+### Firebase Emulator
+- `firebase emulators:start` - Run local Firebase emulator (requires Firebase CLI)
 
 ### Data linter workflow
 - Run: `npm run data:lint`
