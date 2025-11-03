@@ -7,3 +7,4 @@ export * from "./use-lock";
 export * from "./use-online";
 export * from "./use-keyboard-shortcuts";
 export * from "./use-offline-queue";
+export * from "./use-error-handler";

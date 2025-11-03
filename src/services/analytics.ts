@@ -68,6 +68,23 @@ class Analytics {
   }
 
   /**
+   * Track an error event
+   */
+  error(errorInfo: {
+    message: string;
+    category?: string;
+    componentStack?: string;
+    level?: string;
+  }): void {
+    this.track('error', errorInfo.category || 'error', {
+      message: errorInfo.message,
+      componentStack: errorInfo.componentStack,
+      level: errorInfo.level,
+      timestamp: Date.now()
+    });
+  }
+
+  /**
    * Sanitize properties to remove any PII
    */
   private sanitizeProperties(properties?: Record<string, unknown>): Record<string, unknown> | undefined {

@@ -24,19 +24,30 @@ service cloud.firestore {
       allow read: if isAuthenticated() && 
         (resource.data.a == getUserId() || resource.data.b == getUserId());
       
-      // Create/Update: user must be part of the link pair
+      // Create/Update: user must be part of the link pair with comprehensive validation
       allow create: if isAuthenticated() && 
         request.resource.data.keys().hasAll(['a', 'b', 'linked', 'updatedAt']) &&
         request.resource.data.a is string &&
         request.resource.data.b is string &&
+        request.resource.data.a.size() > 0 &&
+        request.resource.data.b.size() > 0 &&
+        request.resource.data.a != request.resource.data.b &&
+        request.resource.data.linked is bool &&
         request.resource.data.updatedAt is int &&
+        request.resource.data.updatedAt > 0 &&
+        request.resource.data.size() <= 10 && // Limit document size
         (request.resource.data.a == getUserId() || request.resource.data.b == getUserId());
       
       allow update: if isAuthenticated() && 
         isLinkedUser(resource) &&
         request.resource.data.keys().hasAll(['a', 'b', 'linked', 'updatedAt']) &&
+        request.resource.data.a is string &&
+        request.resource.data.b is string &&
+        request.resource.data.a == resource.data.a && // Cannot change user IDs
+        request.resource.data.b == resource.data.b &&
         request.resource.data.updatedAt is int &&
-        request.resource.data.updatedAt > resource.data.updatedAt;
+        request.resource.data.updatedAt > resource.data.updatedAt &&
+        request.resource.data.size() <= 10; // Limit document size
 
       // Subcollections under links
       match /game/{gameId} {
@@ -66,8 +77,22 @@ service cloud.firestore {
       allow write: if isAuthenticated() && getUserId() == userId;
       
       match /items/{itemId} {
-        allow read, write: if isAuthenticated() && getUserId() == userId &&
-          request.resource.data.keys().hasAll(['poseId', 'lists', 'updatedAt']);
+        allow read: if isAuthenticated() && getUserId() == userId;
+        allow create: if isAuthenticated() && getUserId() == userId &&
+          request.resource.data.keys().hasAll(['poseId', 'lists', 'updatedAt']) &&
+          request.resource.data.poseId is int &&
+          request.resource.data.poseId > 0 &&
+          request.resource.data.lists is list &&
+          request.resource.data.updatedAt is int &&
+          request.resource.data.updatedAt > 0 &&
+          request.resource.data.size() <= 5; // Limit item size
+        allow update: if isAuthenticated() && getUserId() == userId &&
+          request.resource.data.keys().hasAll(['poseId', 'lists', 'updatedAt']) &&
+          request.resource.data.poseId == resource.data.poseId && // Cannot change poseId
+          request.resource.data.updatedAt is int &&
+          request.resource.data.updatedAt > resource.data.updatedAt &&
+          request.resource.data.size() <= 5;
+        allow delete: if isAuthenticated() && getUserId() == userId;
       }
     }
 

@@ -1,43 +1,102 @@
 import { Component, ReactNode } from "react";
 import { logger } from "@/services/logging";
+import { analytics } from "@/services/analytics";
 
-type Props = { children: ReactNode };
+type Props = { children: ReactNode; level?: 'app' | 'component'; onRetry?: () => void };
 type State = { 
   hasError: boolean;
   error: Error | null;
   errorInfo: React.ErrorInfo | null;
   retryCount: number;
+  errorCategory: 'network' | 'render' | 'state' | 'unknown';
 };
+
+type ErrorCategory = 'network' | 'render' | 'state' | 'unknown';
+
+function categorizeError(error: Error): ErrorCategory {
+  const message = error.message.toLowerCase();
+  if (message.includes('network') || message.includes('fetch') || message.includes('http')) {
+    return 'network';
+  }
+  if (message.includes('render') || message.includes('component')) {
+    return 'render';
+  }
+  if (message.includes('state') || message.includes('context')) {
+    return 'state';
+  }
+  return 'unknown';
+}
+
+function getErrorMessage(category: ErrorCategory): string {
+  switch (category) {
+    case 'network':
+      return 'Network connection issue. Please check your internet and try again.';
+    case 'render':
+      return 'Display error occurred. Refreshing may help.';
+    case 'state':
+      return 'Application state error. Reloading the app may resolve this.';
+    default:
+      return 'An unexpected error occurred. Please try again.';
+  }
+}
+
+function calculateBackoff(retryCount: number): number {
+  return Math.min(1000 * Math.pow(2, retryCount), 10000);
+}
 
 export class ErrorBoundary extends Component<Props, State> {
   state: State = { 
     hasError: false, 
     error: null, 
     errorInfo: null,
-    retryCount: 0 
+    retryCount: 0,
+    errorCategory: 'unknown'
   };
 
   static getDerivedStateFromError(error: Error): Partial<State> {
-    return { hasError: true, error };
+    return { 
+      hasError: true, 
+      error,
+      errorCategory: categorizeError(error)
+    };
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    const category = categorizeError(error);
+    
     logger.error('ErrorBoundary', { 
       error: error.message, 
       stack: error.stack,
-      componentStack: errorInfo.componentStack 
+      componentStack: errorInfo.componentStack,
+      category,
+      level: this.props.level || 'app'
     });
-    this.setState({ error, errorInfo });
+
+    // Report to analytics
+    analytics.error({
+      message: error.message,
+      category,
+      componentStack: errorInfo.componentStack,
+      level: this.props.level || 'app'
+    });
+
+    this.setState({ error, errorInfo, errorCategory: category });
   }
 
   handleRetry = () => {
     if (this.state.retryCount < 3) {
-      this.setState({ 
-        hasError: false, 
-        error: null, 
-        errorInfo: null,
-        retryCount: this.state.retryCount + 1 
-      });
+      const backoffDelay = calculateBackoff(this.state.retryCount);
+      
+      setTimeout(() => {
+        this.setState({ 
+          hasError: false, 
+          error: null, 
+          errorInfo: null,
+          retryCount: this.state.retryCount + 1 
+        }, () => {
+          this.props.onRetry?.();
+        });
+      }, backoffDelay);
     } else {
       // After 3 retries, force full reload
       window.location.reload();
@@ -58,8 +117,13 @@ export class ErrorBoundary extends Component<Props, State> {
               Something went wrong
             </div>
             <div className="text-sm text-slate-300 mb-4">
-              {this.state.error?.message || 'An unexpected error occurred'}
+              {getErrorMessage(this.state.errorCategory)}
             </div>
+            {import.meta.env.DEV && this.state.error?.message && (
+              <div className="text-xs text-slate-400 mb-2">
+                Technical: {this.state.error.message}
+              </div>
+            )}
             
             {this.state.retryCount < 3 && (
               <button
