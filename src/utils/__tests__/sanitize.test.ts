@@ -5,6 +5,9 @@ import {
   sanitizeUrl,
   sanitizeForFirebase,
   validatePositionId,
+  sanitizeFileName,
+  safeJsonParse,
+  validateEmail,
 } from "@/utils/sanitize";
 
 describe("sanitize", () => {
@@ -123,6 +126,94 @@ describe("sanitize", () => {
       expect(validatePositionId(null)).toBeNull();
       expect(validatePositionId(undefined)).toBeNull();
       expect(validatePositionId({})).toBeNull();
+    });
+
+    it("should reject numbers exceeding limit", () => {
+      expect(validatePositionId(1000001)).toBeNull();
+    });
+
+    it("should reject Infinity", () => {
+      expect(validatePositionId(Infinity)).toBeNull();
+    });
+  });
+
+  describe("sanitizeFileName", () => {
+    it("should sanitize normal filename", () => {
+      expect(sanitizeFileName("test.png")).toBe("test.png");
+    });
+
+    it("should remove path traversal attempts", () => {
+      expect(sanitizeFileName("../../../etc/passwd")).toBe("etcpasswd");
+    });
+
+    it("should remove special characters", () => {
+      expect(sanitizeFileName("test<script>.png")).toBe("testscriptpng");
+    });
+
+    it("should limit length", () => {
+      const longName = "a".repeat(300);
+      expect(sanitizeFileName(longName).length).toBeLessThanOrEqual(255);
+    });
+
+    it("should handle empty string", () => {
+      expect(sanitizeFileName("")).toBe("");
+    });
+
+    it("should handle non-string input", () => {
+      expect(sanitizeFileName(null as any)).toBe("");
+      expect(sanitizeFileName(undefined as any)).toBe("");
+    });
+  });
+
+  describe("safeJsonParse", () => {
+    it("should parse valid JSON", () => {
+      const json = '{"key": "value"}';
+      const result = safeJsonParse(json);
+      expect(result).toEqual({ key: "value" });
+    });
+
+    it("should return null for invalid JSON", () => {
+      const invalid = "{key: value}";
+      expect(safeJsonParse(invalid)).toBeNull();
+    });
+
+    it("should return null for non-string input", () => {
+      expect(safeJsonParse(null as any)).toBeNull();
+      expect(safeJsonParse(123 as any)).toBeNull();
+    });
+
+    it("should reject deeply nested objects", () => {
+      const deep = JSON.stringify({ level1: { level2: { level3: { level4: { level5: { level6: { level7: { level8: { level9: { level10: { level11: "deep" } } } } } } } } } } });
+      expect(safeJsonParse(deep, 5)).toBeNull();
+    });
+
+    it("should accept valid nested objects within limit", () => {
+      const nested = JSON.stringify({ a: { b: { c: "value" } } });
+      expect(safeJsonParse(nested, 5)).toBeTruthy();
+    });
+  });
+
+  describe("validateEmail", () => {
+    it("should validate correct email format", () => {
+      expect(validateEmail("test@example.com")).toBe(true);
+      expect(validateEmail("user.name+tag@example.co.uk")).toBe(true);
+    });
+
+    it("should reject invalid emails", () => {
+      expect(validateEmail("not-an-email")).toBe(false);
+      expect(validateEmail("@example.com")).toBe(false);
+      expect(validateEmail("test@")).toBe(false);
+      expect(validateEmail("test.example.com")).toBe(false);
+    });
+
+    it("should reject emails exceeding length limit", () => {
+      const longEmail = "a".repeat(250) + "@example.com";
+      expect(validateEmail(longEmail)).toBe(false);
+    });
+
+    it("should handle non-string input", () => {
+      expect(validateEmail(null as any)).toBe(false);
+      expect(validateEmail(123 as any)).toBe(false);
     });
   });
 });

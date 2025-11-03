@@ -14,6 +14,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:ui": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest watch",
     "test:integration": "vitest run tests/integration",
     "test:all": "pnpm test && pnpm test:integration && pnpm e2e",
     "cap:sync": "pnpm run build && npx cap sync",
