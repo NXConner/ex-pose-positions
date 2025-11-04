@@ -1,0 +1,10 @@
+dist
+build
+coverage
+node_modules
+android
+public/positions
+*.lock
+*.log
+.husky/_
+supabase/migrations/*.sql

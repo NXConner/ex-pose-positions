@@ -11,6 +11,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
+    "lint:styles": "stylelint \"src/**/*.{css,scss}\"",
     "preview": "vite preview",
     "test": "vitest run",
     "test:ui": "vitest",
@@ -18,19 +19,27 @@
     "test:watch": "vitest watch",
     "test:integration": "vitest run tests/integration",
     "test:all": "pnpm test && pnpm test:integration && pnpm e2e",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "cap:sync": "pnpm run build && npx cap sync",
     "cap:android": "npx cap open android",
     "e2e": "playwright test",
     "e2e:install": "npx playwright install --with-deps",
     "k6": "k6 run tests/load/k6_smoke.js",
     "dev:all": "powershell -ExecutionPolicy Bypass -File ./scripts/dev.ps1 -WithLoad",
+    "prepare": "husky install",
     "data:lint": "node --loader ts-node/esm ./scripts/data-lint.ts",
     "android:build": "powershell -ExecutionPolicy Bypass -File ./scripts/build-android.ps1",
     "bundle:check": "node scripts/check-bundle-size.js",
-    "lighthouse": "lhci autorun"
+    "lighthouse": "lhci autorun",
+    "migrate:create": "node-pg-migrate create --migrations-dir supabase/migrations --migrations-table pps_schema_migrations",
+    "migrate:up": "node-pg-migrate up --migrations-dir supabase/migrations --migrations-table pps_schema_migrations",
+    "migrate:down": "node-pg-migrate down --migrations-dir supabase/migrations --migrations-table pps_schema_migrations",
+    "db:seed": "node --loader ts-node/esm ./scripts/seed.ts"
   },
   "dependencies": {
     "@capacitor/android": "^7.4.4",
+    "@supabase/supabase-js": "^2.46.1",
     "@tailwindcss/vite": "^4.1.16",
     "firebase": "^11.10.0",
     "qs": "^6.14.0",
@@ -57,14 +66,31 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.4.0",
+    "husky": "^9.1.7",
     "jsdom": "^27.0.1",
+    "node-pg-migrate": "^7.8.2",
+    "lint-staged": "^15.2.10",
+    "dotenv": "^16.4.5",
+    "prettier": "^3.4.2",
+    "prettier-plugin-tailwindcss": "^0.6.10",
     "sass-embedded": "^1.93.2",
     "sharp": "^0.34.4",
+    "stylelint": "^16.10.0",
+    "stylelint-config-standard": "^37.0.0",
+    "stylelint-config-standard-scss": "^13.0.0",
+    "ts-node": "^10.9.2",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.46.2",
     "vite": "^7.1.12",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^2.1.4"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,css,scss,json,md}": [
+      "pnpm format:check",
+      "pnpm lint",
+      "pnpm lint:styles"
+    ]
   },
   "packageManager": "pnpm@10.19.0"
 }

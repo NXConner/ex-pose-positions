@@ -6,14 +6,22 @@ import tseslint from 'typescript-eslint'
 import jsxA11y from 'eslint-plugin-jsx-a11y'
 
 export default tseslint.config(
-  { ignores: ['dist'] },
+  { ignores: ['dist', 'build', 'coverage', 'node_modules', '.husky'] },
   {
-    extends: [js.configs.recommended, ...tseslint.configs.recommended],
+      extends: [
+        js.configs.recommended,
+        ...tseslint.configs.recommended,
+        ...tseslint.configs.strict,
+      ],
     files: ['**/*.{ts,tsx}'],
-    languageOptions: {
-      ecmaVersion: 2020,
-      globals: globals.browser,
-    },
+      languageOptions: {
+        ecmaVersion: 2020,
+        globals: globals.browser,
+        parserOptions: {
+          projectService: true,
+          tsconfigRootDir: new URL('.', import.meta.url),
+        },
+      },
     plugins: {
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,

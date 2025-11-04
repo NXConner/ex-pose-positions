@@ -1,0 +1,64 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: .
+      target: development
+      args:
+        NODE_VERSION: ${NODE_VERSION:-20.18.0}
+    container_name: pavement-suite-app
+    command: pnpm dev --host 0.0.0.0 --port 5173
+    working_dir: /workspace
+    volumes:
+      - .:/workspace:cached
+      - pnpm-store:/pnpm
+      - node-modules:/workspace/node_modules
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_APP_ENV: ${VITE_APP_ENV:-development}
+      VITE_SUPABASE_URL: ${VITE_SUPABASE_URL:-http://supabase-db:5432}
+      VITE_SUPABASE_ANON_KEY: ${VITE_SUPABASE_ANON_KEY:-dev-anon-key}
+      SUPABASE_DB_PASSWORD: ${SUPABASE_DB_PASSWORD:-supabase}
+    depends_on:
+      supabase-db:
+        condition: service_healthy
+
+  supabase-db:
+    image: supabase/postgres:15.1.1.79
+    container_name: pavement-supabase-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: ${SUPABASE_DB_PASSWORD:-supabase}
+      POSTGRES_DB: ${SUPABASE_DB_NAME:-supabase}
+      POSTGRES_USER: ${SUPABASE_DB_USER:-supabase}
+    ports:
+      - "54322:5432"
+    volumes:
+      - supabase-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${SUPABASE_DB_USER:-supabase}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  supabase-studio:
+    image: supabase/studio:20241212-174357
+    container_name: pavement-supabase-studio
+    restart: unless-stopped
+    depends_on:
+      - supabase-db
+    environment:
+      SUPABASE_ANON_KEY: ${VITE_SUPABASE_ANON_KEY:-dev-anon-key}
+      SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY:-dev-service-role}
+      STUDIO_PG_META_URL: http://supabase-db:5432
+      POSTGRES_PASSWORD: ${SUPABASE_DB_PASSWORD:-supabase}
+    ports:
+      - "54323:3000"
+
+volumes:
+  pnpm-store:
+  node-modules:
+  supabase-data:
+

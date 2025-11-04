@@ -5,17 +5,17 @@ Thank you for contributing! This guide will help you get started.
 ## Setup
 
 1. **Install Dependencies**
-   ```bash
-   pnpm install
+   ```powershell
+   pwsh -File ./install_dependencies.ps1
    ```
 
 2. **Environment Configuration**
    - Copy `.env.example` to `.env`
-   - Add your Firebase configuration keys
-   - App works without Firebase, but partner features will be disabled
+   - Provide Supabase, Firebase legacy, and integration keys (Mapbox, weather, etc.)
+   - Never commit real secrets; prefer Doppler/Vault for production secrets
 
 3. **Start Development Server**
-   ```bash
+   ```powershell
    pnpm dev
    ```
    If server is already running, just refresh your browser.
@@ -23,15 +23,18 @@ Thank you for contributing! This guide will help you get started.
 ## Development Workflow
 
 ### Branching
-- Branch from `main` for new features
-- Use descriptive branch names: `feature/search-history`, `fix/game-pause`
-- Keep branches focused on a single feature or fix
+- Branch from `develop` for features and fixes
+- Use descriptive branch names: `feat/inspections-offline-sync`, `fix/asset-diff`
+- Keep branches scoped and merge back into `develop`; promote `develop → main` via release branches
 
 ### Code Quality
-- **Lint**: Run `pnpm lint` before committing
-- **Type Check**: Run `pnpm build` to verify TypeScript compilation
-- **Tests**: Run `pnpm test` to ensure all tests pass
-- **Coverage**: Run `pnpm test:coverage` to check test coverage (target: 80%+)
+- **Lint (TypeScript/React)**: `pnpm lint`
+- **Lint (Styles)**: `pnpm lint:styles`
+- **Format**: `pnpm format`
+- **Type Check**: `pnpm build`
+- **Tests**: `pnpm test`
+- **Coverage**: `pnpm test:coverage` (target: 85%+)
+- Husky runs `pnpm exec lint-staged` automatically on commit
 
 ### Before Submitting PR
 - ✅ All tests pass: `pnpm test:all`

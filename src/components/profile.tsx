@@ -10,7 +10,7 @@ type StatsDoc = {
 };
 
 export function Profile() {
-  const { me, partner, shared, docId } = useShared();
+  const { me, email, partner, shared, docId } = useShared();
   const { db } = getFirebase();
   const [stats, setStats] = useState<StatsDoc | null>(null);
 
@@ -26,6 +26,7 @@ export function Profile() {
       <h4 className="text-lg neon-accent">Profile</h4>
 
       <div className="grid gap-2 text-sm">
+        <div><span className="text-slate-400">My Email:</span> <span className="text-white select-all">{email || "—"}</span></div>
         <div><span className="text-slate-400">My UID:</span> <span className="text-white select-all">{me || "—"}</span></div>
         <div><span className="text-slate-400">Partner UID:</span> <span className="text-white select-all">{partner || "—"}</span></div>
         <div><span className="text-slate-400">Linked:</span> <span className={shared?.linked ? "text-green-400" : "text-yellow-400"}>{shared?.linked ? "Yes" : "No"}</span></div>

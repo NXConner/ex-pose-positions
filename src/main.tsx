@@ -4,11 +4,15 @@ import { BrowserRouter, Route, Routes } from "react-router";
 
 import { App } from "@/App.tsx";
 import { ErrorBoundary } from "@/components";
+import { DevTools } from "@/components/dev-tools";
+import { ToastProvider, ToastViewport } from "@/components/ui/toast";
 import { I18nProvider } from "@/i18n";
 import { AppContextProvider } from "@/store/app-context";
-import { DevTools } from "@/components/dev-tools";
+import { ThemeProvider } from "@/styles/design-system";
 
 import "@/styles/main.scss";
+import "@/styles/design-system.css";
+import "@/styles/ui.css";
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
@@ -22,11 +26,16 @@ createRoot(document.getElementById("app")!).render(
     <ErrorBoundary>
       <I18nProvider>
         <BrowserRouter>
-          <AppContextProvider>
-            <Routes>
-              <Route path="*" element={<App />} />
-            </Routes>
-          </AppContextProvider>
+          <ThemeProvider>
+            <ToastProvider>
+              <AppContextProvider>
+                <Routes>
+                  <Route path="*" element={<App />} />
+                </Routes>
+              </AppContextProvider>
+              <ToastViewport />
+            </ToastProvider>
+          </ThemeProvider>
         </BrowserRouter>
       </I18nProvider>
     </ErrorBoundary>
