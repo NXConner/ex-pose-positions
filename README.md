@@ -1,24 +1,34 @@
-# Random Positions App (Enhanced)
+# Pavement Performance Suite (Transition Roadmap)
+
+> This repository is actively evolving from a legacy partner-experience app into the Pavement Performance Suite — an operations, inspection, and analytics platform tailored to church parking lot rehabilitation. The sections below will be refactored phase-by-phase; use this README as the authoritative onboarding guide.
 
 ## Setup
 
-1. pnpm install
-2. Copy `.env.example` to `.env` and fill in Firebase keys:
-   ```bash
-   cp .env.example .env
+1. **Install dependencies** (idempotent):
+   ```powershell
+   pwsh -File ./install_dependencies.ps1
    ```
-   Then edit `.env` with your Firebase configuration:
-   - VITE_FIREBASE_API_KEY
-   - VITE_FIREBASE_AUTH_DOMAIN
-   - VITE_FIREBASE_PROJECT_ID
-   - VITE_FIREBASE_STORAGE_BUCKET
-   - VITE_FIREBASE_MESSAGING_SENDER_ID
-   - VITE_FIREBASE_APP_ID
-   
-   Get these from: https://console.firebase.google.com/project/ex-pose-positions/settings/general
-3. pnpm dev (refresh if already running)
-   
-   **Note**: App will work without Firebase keys, but partner features will be disabled.
+   > Optional flags: `-SkipPlaywright`, `-NoHusky`
+2. **Configure environment variables**:
+   ```powershell
+   Copy-Item .env.example .env
+   ```
+   Populate Supabase, Firebase-legacy, analytics, and integration keys as needed. Prefer vault-backed secrets for production (see `PROTECT_ENV.md`).
+3. **Launch the dev server**:
+   ```powershell
+   pnpm dev
+   ```
+   Refresh your running dev instance after environment changes.
+
+## Branching Strategy
+
+- **Default branch**: `main` (production ready)
+- **Ongoing platform work**: `develop`
+- **Feature branches**: `feat/<scope>-<summary>` (e.g., `feat/inspections-offline-sync`)
+- **Fix branches**: `fix/<scope>-<summary>`
+- **Release branches**: `release/<version>` prepared before production deploys
+
+Always branch from `develop`, open PRs into `develop`, and merge `develop → main` only after successful CI and release readiness checks.
 
 ## Features
 
@@ -87,9 +97,11 @@
 ## Development
 
 ### Code Quality
-- **Lint**: `pnpm lint` - Run ESLint with accessibility rules
-- **Type Check**: `pnpm build` - TypeScript compilation check
-- **Format**: Code is auto-formatted with ESLint
+- **Lint (TypeScript/React)**: `pnpm lint`
+- **Lint (Styles)**: `pnpm lint:styles`
+- **Formatting**: `pnpm format` (Prettier + Tailwind plugin)
+- **Type Check**: `pnpm build`
+- **Pre-commit**: Husky runs `pnpm exec lint-staged` to gate staged changes
 
 ### Testing
 - **Unit Tests**: `pnpm test` - Run all unit tests (Vitest)

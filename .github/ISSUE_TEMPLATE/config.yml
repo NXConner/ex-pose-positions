@@ -1,0 +1,9 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📚 Documentation & FAQ
+    url: https://github.com/NXConner/ex-pose-positions/tree/main/docs
+    about: Review architecture, testing, and deployment guides before filing issues.
+  - name: 🛡️ Security Disclosure
+    url: mailto:security@pavement-suite.example
+    about: Report vulnerabilities privately.
+
