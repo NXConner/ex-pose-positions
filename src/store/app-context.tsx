@@ -18,9 +18,10 @@ interface AppContextType {
   setPositionId: (id: number) => void;
   setFilter: (level: string, isActive: boolean) => void;
   resetFilters: () => void;
-  
+
   // Shared hook data
   me: string | null;
+  email: string;
   partner: string;
   shared: ReturnType<typeof useShared>["shared"];
   docId: string | null;
@@ -44,6 +45,7 @@ export function AppContextProvider({ children }: { children: ReactNode }) {
       setFilter: actions.setFilter,
       resetFilters: actions.resetFilters,
       me: shared.me,
+      email: shared.email,
       partner: shared.partner,
       shared: shared.shared,
       docId: shared.docId,

@@ -71,6 +71,21 @@ service cloud.firestore {
       }
     }
 
+    // Users collection: per-user profile metadata (email mapping)
+    match /users/{userId} {
+      allow read: if isAuthenticated() && getUserId() == userId;
+      allow create, update: if isAuthenticated() &&
+        getUserId() == userId &&
+        request.resource.data.keys().hasAll(['uid', 'email', 'emailNormalized', 'createdAt', 'updatedAt', 'schemaVersion']) &&
+        request.resource.data.uid == userId &&
+        request.resource.data.email is string &&
+        request.resource.data.emailNormalized is string &&
+        request.resource.data.createdAt is int &&
+        request.resource.data.updatedAt is int &&
+        request.resource.data.updatedAt >= request.resource.data.createdAt &&
+        request.resource.data.size() <= 10;
+    }
+
     // Lists collection: user's personal lists
     match /lists/{userId} {
       allow read: if isAuthenticated() && getUserId() == userId;
