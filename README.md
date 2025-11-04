@@ -122,6 +122,13 @@ Always branch from `develop`, open PRs into `develop`, and merge `develop → ma
 - **Type Check**: `pnpm build`
 - **Pre-commit**: Husky runs `pnpm exec lint-staged` to gate staged changes
 
+### UI Tooling
+
+- Design tokens + themes: `src/styles/design-system/`
+- UI primitives: `src/components/ui/` (see `docs/UI_LIBRARY.md`)
+- Global CSS: `@/styles/design-system.css` and `@/styles/ui.css`
+- Providers: `ThemeProvider`, `ToastProvider`, `ToastViewport` in `src/main.tsx`
+
 ### Testing
 - **Unit Tests**: `pnpm test` - Run all unit tests (Vitest)
 - **Test UI**: `pnpm test:ui` - Interactive test runner

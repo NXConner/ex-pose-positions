@@ -1,0 +1,122 @@
+:root {
+  --pps-color-background: #f4f6fb;
+  --pps-color-surface: #ffffff;
+  --pps-color-surface-muted: #eef1f8;
+  --pps-color-primary: #2c6eeb;
+  --pps-color-primary-contrast: #ffffff;
+  --pps-color-secondary: #f97316;
+  --pps-color-accent: #0ea5e9;
+  --pps-color-success: #16a34a;
+  --pps-color-warning: #d97706;
+  --pps-color-danger: #dc2626;
+  --pps-color-info: #2563eb;
+  --pps-color-text: #0f172a;
+  --pps-color-text-muted: #4b5563;
+  --pps-color-outline: #d0d9ee;
+
+  --pps-font-family: 'InterVariable', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --pps-font-monospace: 'JetBrains Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+
+  --pps-space-3xs: 2px;
+  --pps-space-2xs: 4px;
+  --pps-space-xs: 8px;
+  --pps-space-sm: 12px;
+  --pps-space-md: 16px;
+  --pps-space-lg: 24px;
+  --pps-space-xl: 32px;
+  --pps-space-2xl: 48px;
+  --pps-space-3xl: 64px;
+
+  --pps-radius-xs: 2px;
+  --pps-radius-sm: 4px;
+  --pps-radius-md: 8px;
+  --pps-radius-lg: 16px;
+  --pps-radius-full: 999px;
+
+  --pps-motion-fast: 120ms;
+  --pps-motion-base: 180ms;
+  --pps-motion-slow: 300ms;
+  --pps-motion-easing: cubic-bezier(0.4, 0, 0.2, 1);
+  --pps-motion-easing-emphasized: cubic-bezier(0.35, 0, 0.25, 1);
+
+  --pps-type-h1-size: 2.75rem;
+  --pps-type-h1-line: 3rem;
+  --pps-type-h1-weight: 700;
+  --pps-type-h2-size: 2.25rem;
+  --pps-type-h2-line: 2.5rem;
+  --pps-type-h2-weight: 700;
+  --pps-type-h3-size: 1.875rem;
+  --pps-type-h3-line: 2.25rem;
+  --pps-type-h3-weight: 600;
+  --pps-type-h4-size: 1.5rem;
+  --pps-type-h4-line: 2rem;
+  --pps-type-h4-weight: 600;
+  --pps-type-h5-size: 1.25rem;
+  --pps-type-h5-line: 1.75rem;
+  --pps-type-h5-weight: 600;
+  --pps-type-h6-size: 1.125rem;
+  --pps-type-h6-line: 1.5rem;
+  --pps-type-h6-weight: 600;
+
+  --pps-type-body-base-size: 1rem;
+  --pps-type-body-base-line: 1.6rem;
+  --pps-type-body-base-weight: 400;
+  --pps-type-body-sm-size: 0.875rem;
+  --pps-type-body-sm-line: 1.4rem;
+  --pps-type-body-sm-weight: 400;
+  --pps-type-body-xs-size: 0.75rem;
+  --pps-type-body-xs-line: 1.2rem;
+  --pps-type-body-xs-weight: 500;
+}
+
+[data-theme='nightshift'] {
+  --pps-color-background: #050810;
+  --pps-color-surface: #101828;
+  --pps-color-surface-muted: #1f2937;
+  --pps-color-primary: #60a5fa;
+  --pps-color-primary-contrast: #050810;
+  --pps-color-secondary: #fbbf24;
+  --pps-color-accent: #14b8a6;
+  --pps-color-success: #34d399;
+  --pps-color-warning: #f59e0b;
+  --pps-color-danger: #f87171;
+  --pps-color-info: #38bdf8;
+  --pps-color-text: #f8fafc;
+  --pps-color-text-muted: #94a3b8;
+  --pps-color-outline: #1e293b;
+}
+
+[data-theme='sunset'] {
+  --pps-color-background: #fff8f1;
+  --pps-color-surface: #fff1e6;
+  --pps-color-surface-muted: #ffe4d5;
+  --pps-color-primary: #ea580c;
+  --pps-color-primary-contrast: #fff8f1;
+  --pps-color-secondary: #0f766e;
+  --pps-color-accent: #8b5cf6;
+  --pps-color-success: #15803d;
+  --pps-color-warning: #c2410c;
+  --pps-color-danger: #b91c1c;
+  --pps-color-info: #2563eb;
+  --pps-color-text: #3b1f0a;
+  --pps-color-text-muted: #7c3f16;
+  --pps-color-outline: #f2bfa3;
+}
+
+[data-theme='contrast'] {
+  --pps-color-background: #000000;
+  --pps-color-surface: #101010;
+  --pps-color-surface-muted: #181818;
+  --pps-color-primary: #ffbf00;
+  --pps-color-primary-contrast: #000000;
+  --pps-color-secondary: #34d399;
+  --pps-color-accent: #60a5fa;
+  --pps-color-success: #22c55e;
+  --pps-color-warning: #facc15;
+  --pps-color-danger: #f87171;
+  --pps-color-info: #38bdf8;
+  --pps-color-text: #ffffff;
+  --pps-color-text-muted: #e5e5e5;
+  --pps-color-outline: #262626;
+}
+
