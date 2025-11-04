@@ -129,6 +129,13 @@ Always branch from `develop`, open PRs into `develop`, and merge `develop → ma
 - Global CSS: `@/styles/design-system.css` and `@/styles/ui.css`
 - Providers: `ThemeProvider`, `ToastProvider`, `ToastViewport` in `src/main.tsx`
 
+### Database & Supabase
+
+- Migrations: `pnpm migrate:up` / `pnpm migrate:down` (requires `DATABASE_URL`)
+- Create new migration: `pnpm migrate:create -- <name>`
+- Seed sample data + roles: `pnpm db:seed`
+- Detailed setup & admin instructions: see `docs/SUPABASE_SETUP.md`
+
 ### Testing
 - **Unit Tests**: `pnpm test` - Run all unit tests (Vitest)
 - **Test UI**: `pnpm test:ui` - Interactive test runner
