@@ -20,6 +20,25 @@
    ```
    Refresh your running dev instance after environment changes.
 
+### Containers
+
+Prefer containers for a clean, reproducible environment:
+
+```bash
+docker compose up --build
+```
+
+- App served on http://localhost:5173
+- Supabase Postgres exposed on `localhost:54322`
+- Supabase Studio UI on http://localhost:54323
+- Update `.env` or environment overrides before starting for custom credentials
+
+Production build image:
+
+```bash
+docker build --target production -t pavement-suite:prod .
+```
+
 ## Branching Strategy
 
 - **Default branch**: `main` (production ready)
