@@ -36,6 +36,7 @@ tests/
 - **TypeScript** - Type safety
 - **Vite** - Build tool & dev server
 - **Supabase** - Auth, database, storage, realtime (primary backend)
+- **Supabase Realtime** - Mesh signalling and presence for the multi-camera sync experience
 - **Firebase** - Legacy compatibility (Auth/Firestore)
 - **Tailwind CSS** - Styling
 - **Vitest** - Unit testing

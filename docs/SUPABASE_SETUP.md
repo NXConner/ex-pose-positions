@@ -1,9 +1,9 @@
 ## Supabase Setup Guide
 
-### 1. Provision the `intimacy` Supabase Project
+### 1. Provision the `qvbjdxlatawfkqfvpfsd` Supabase Project
 
 1. Create a new project at [supabase.com](https://supabase.com/).
-2. Name the project slug `intimacy` (or update `.env.example` if you pick a different slug).
+2. Name the project slug `qvbjdxlatawfkqfvpfsd` (or update `.env.example` if you pick a different slug).
 3. Note the **Project URL**, **Anon Key**, and **Service Role Key**.
 4. Under *Authentication → Providers*, enable Email/Password. Optional: enable Magic Link for quick pairing.
 
@@ -12,7 +12,7 @@
 Update `.env` (or `.env.local`) with:
 
 ```
-VITE_SUPABASE_URL=https://intimacy.supabase.co
+VITE_SUPABASE_URL=https://qvbjdxlatawfkqfvpfsd.supabase.co
 VITE_SUPABASE_ANON_KEY=<anon key>
 SUPABASE_SERVICE_ROLE_KEY=<service role key>
 SUPABASE_DB_PASSWORD=<database password>

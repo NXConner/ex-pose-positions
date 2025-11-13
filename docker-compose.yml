@@ -18,7 +18,7 @@ services:
       - "5173:5173"
     environment:
       VITE_APP_ENV: ${VITE_APP_ENV:-development}
-      VITE_SUPABASE_URL: ${VITE_SUPABASE_URL:-https://intimacy.supabase.co}
+      VITE_SUPABASE_URL: ${VITE_SUPABASE_URL:-https://qvbjdxlatawfkqfvpfsd.supabase.co}
       VITE_SUPABASE_ANON_KEY: ${VITE_SUPABASE_ANON_KEY:-dev-anon-key}
       SUPABASE_DB_PASSWORD: ${SUPABASE_DB_PASSWORD:-supabase}
     depends_on:

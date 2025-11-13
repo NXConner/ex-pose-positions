@@ -58,6 +58,7 @@ Always branch from `develop`, open PRs into `develop`, and merge `develop → ma
 - **Connection Game** – Cooperative missions, streak tracking, and custom challenges with pause/resume controls
 - **Insights & Achievements** – Wellness dashboards, habit trends, mood logging, and badge systems
 - **Creative Prompts** – Photo ideas, conversation starters, reflection prompts, and guided programs
+- **Camera Sync Studio** – Multi-angle capture with Supabase realtime mesh, synchronized recording, and shareable join links for additional cameras
 - **Positions Gallery** – Searchable atlas with filters, tags, and customizable metadata
 
 ### Security & Privacy
@@ -126,7 +127,7 @@ Always branch from `develop`, open PRs into `develop`, and merge `develop → ma
 
 ### Database & Supabase
 - Project database name: `intimacy`
-- REST and real-time endpoints configured via `VITE_SUPABASE_URL`
+- Default Supabase endpoint: `https://qvbjdxlatawfkqfvpfsd.supabase.co` (override with `VITE_SUPABASE_URL`)
 - Migrations: `pnpm migrate:up` / `pnpm migrate:down` (requires `DATABASE_URL`)
 - Create new migration: `pnpm migrate:create -- <name>`
 - Seed baseline data, flags, and demo content: `pnpm db:seed`
