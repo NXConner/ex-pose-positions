@@ -35,7 +35,8 @@ tests/
 - **React 19** - UI framework
 - **TypeScript** - Type safety
 - **Vite** - Build tool & dev server
-- **Firebase** - Backend (Auth, Firestore)
+- **Supabase** - Auth, database, storage, realtime (primary backend)
+- **Firebase** - Legacy compatibility (Auth/Firestore)
 - **Tailwind CSS** - Styling
 - **Vitest** - Unit testing
 - **Playwright** - E2E testing
@@ -66,7 +67,7 @@ Component
   ↓
 Hook (useActions, useShared, etc.)
   ↓
-Service (Firebase, Analytics)
+Service (Supabase, Firebase legacy, Analytics)
   ↓
 Backend (Firestore) / Local Storage
 ```
@@ -103,7 +104,7 @@ App
 
 ### Security
 - Input sanitization (XSS prevention)
-- Firestore security rules
+- Supabase row-level security policies
 - Environment variable validation
 - PIN lock for private gallery
 

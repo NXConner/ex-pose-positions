@@ -4,6 +4,7 @@ import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import tseslint from 'typescript-eslint'
 import jsxA11y from 'eslint-plugin-jsx-a11y'
+import { fileURLToPath } from 'node:url'
 
 export default tseslint.config(
   { ignores: ['dist', 'build', 'coverage', 'node_modules', '.husky'] },
@@ -19,7 +20,7 @@ export default tseslint.config(
         globals: globals.browser,
         parserOptions: {
           projectService: true,
-          tsconfigRootDir: new URL('.', import.meta.url),
+          tsconfigRootDir: fileURLToPath(new URL('.', import.meta.url)),
         },
       },
     plugins: {

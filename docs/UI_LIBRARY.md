@@ -1,13 +1,13 @@
-## Pavement Performance Suite UI Library
+## Intimacy Companion Suite UI Library
 
-The UI layer is now composed of reusable, accessibility-reviewed primitives that sit on top of the design system token set. This page documents the available building blocks and how to integrate them.
+The UI layer is composed of reusable, accessibility-reviewed primitives that sit on top of the design system token set. This page documents the available building blocks and illustrates how to integrate them into connection-centric experiences.
 
 ### Design System Tokens
 
 - Location: `src/styles/design-system/`
-- Themes: `daybreak`, `nightshift`, `sunset`, `contrast`
-- Tokens exposed as CSS custom properties (`--pps-*`) for colors, spacing, typography, motion, radii, and elevations.
-- `ThemeProvider` automatically loads stored preference from `localStorage` (`pps.theme`) and writes tokens to the document root.
+- Themes: `midnight`, `aurora`, `ember`, `clarity`
+- Tokens exposed as CSS custom properties (`--ics-*`) for colors, spacing, typography, motion, radii, and elevations.
+- `ThemeProvider` automatically loads stored preference from `localStorage` (`ics.theme`) and writes tokens to the document root.
 
 ### CSS Imports
 
@@ -29,13 +29,13 @@ These files are imported in `src/main.tsx` and must remain globally available.
 </ThemeProvider>
 ```
 
-The theme provider may be nested deeper for multi-app shells. Use `useTheme()` to read the active theme or present a picker.
+The theme provider may be nested deeper for multi-shell experiences. Use `useTheme()` to read the active theme or present the personalization panel.
 
 ### Core Components (`src/components/ui`)
 
 | Component | Description | Notes |
 |-----------|-------------|-------|
-| `Button` | Variants `primary`, `secondary`, `accent`, `outline`, `ghost`, `danger`; sizes `sm|md|lg`; optional leading/trailing icons | Keyboard/focus styles baked in |
+| `Button` | Variants `primary`, `secondary`, `accent`, `outline`, `ghost`, `danger`; sizes `sm|md|lg`; optional leading/trailing icons | Keyboard/focus styles and loading states baked in |
 | `Input` | Labeled form control with description/error slots and adornments | Handles `aria-describedby` and `aria-invalid` automatically |
 | `Card`, `CardHeader`, `CardContent`, `CardFooter` | Surface container with optional elevations | Elevation levels map to design-system shadows |
 | `Modal` | Portal-backed dialog with ESC and body-scroll locking | Provide `isOpen`, `onClose`, `title` |
@@ -47,46 +47,77 @@ The theme provider may be nested deeper for multi-app shells. Use `useTheme()` t
 ### Accessibility Checklist
 
 - All interactive primitives expose focus states and ARIA attributes where applicable.
-- `Tabs` implements arrow-key roving focus; `Modal` binds `Escape`.
+- `Tabs` implements arrow-key roving focus; `Modal` binds `Escape` and traps focus.
 - `ToastViewport` announces messages via `aria-live="polite"`.
 - Use `VisuallyHidden` component for hidden labels instead of custom CSS.
+- Respect reduced motion preferences via `prefers-reduced-motion` tokens.
 
 ### Extending Themes
 
 1. Add a new theme definition to `src/styles/design-system/themes.ts`.
 2. Extend CSS custom properties in `src/styles/design-system.css` with matching `[data-theme='new']` section.
 3. `ThemeProvider` will automatically expose the theme in `supportedThemes`.
+4. Update `ThemeCustomizer` copy to highlight the new palette and accessibility profile.
 
 ### Usage Example
 
 ```tsx
-import { Card, CardContent, CardHeader, Button, Stack, Tabs, TabsList, TabsTrigger, TabsPanel, useToast } from "@/components/ui";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  Badge,
+  Button,
+  Stack,
+  Tabs,
+  TabsList,
+  TabsTrigger,
+  TabsPanel,
+  useToast,
+} from "@/components/ui";
 
-function EstimateSummary() {
+function ConnectionSummaryCard() {
   const { publish } = useToast();
 
   return (
     <Card elevation="level2">
       <CardHeader>
-        <h3>Sealcoat Summary</h3>
-        <Button size="sm" variant="outline" onClick={() => publish({ title: "Export queued", tone: "info" })}>
-          Export PDF
-        </Button>
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <h3 className="text-lg font-semibold">Evening Connection Ritual</h3>
+            <Stack as="span" direction="horizontal" spacing="xs">
+              <Badge tone="success">Scheduled</Badge>
+              <Badge tone="accent">Playful</Badge>
+            </Stack>
+          </div>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => publish({ title: "Shared plan exported", tone: "info" })}
+          >
+            Export Plan
+          </Button>
+        </div>
       </CardHeader>
       <CardContent>
-        <Tabs defaultValue="materials">
+        <Tabs defaultValue="segments">
           <TabsList>
-            <TabsTrigger value="materials">Materials</TabsTrigger>
-            <TabsTrigger value="labor">Labor</TabsTrigger>
+            <TabsTrigger value="segments">Segments</TabsTrigger>
+            <TabsTrigger value="aftercare">Aftercare</TabsTrigger>
           </TabsList>
-          <TabsPanel value="materials">
+          <TabsPanel value="segments">
             <Stack spacing="sm">
-              <span>Asphalt Emulsion: 1,250 gal</span>
-              <span>Aggregate: 8,400 lbs</span>
+              <span>Breathwork Warm-Up · 10 min</span>
+              <span>Discovery Prompt · 35 min</span>
+              <span>Intentional Touch · 30 min</span>
             </Stack>
           </TabsPanel>
-          <TabsPanel value="labor">
-            <span>4 crew members · 2 nights</span>
+          <TabsPanel value="aftercare">
+            <Stack spacing="sm">
+              <span>Hydrate and stretch together</span>
+              <span>Share one appreciation each</span>
+              <span>Queue calm playlist in Private Gallery</span>
+            </Stack>
           </TabsPanel>
         </Tabs>
       </CardContent>
@@ -99,4 +130,4 @@ function EstimateSummary() {
 
 - ESLint (`pnpm lint`) enforces JSX a11y rules.
 - Include unit tests for custom component composites in `src/components/ui/__tests__` when extending functionality.
-
+- Add Storybook stories or visual regression coverage for new primitives to ensure accessibility parity.
