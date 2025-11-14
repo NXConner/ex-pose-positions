@@ -7,7 +7,7 @@ services:
       target: development
       args:
         NODE_VERSION: ${NODE_VERSION:-20.18.0}
-    container_name: pavement-suite-app
+    container_name: intimacy-suite-app
     command: pnpm dev --host 0.0.0.0 --port 5173
     working_dir: /workspace
     volumes:
@@ -18,7 +18,7 @@ services:
       - "5173:5173"
     environment:
       VITE_APP_ENV: ${VITE_APP_ENV:-development}
-      VITE_SUPABASE_URL: ${VITE_SUPABASE_URL:-http://supabase-db:5432}
+      VITE_SUPABASE_URL: ${VITE_SUPABASE_URL:-https://qvbjdxlatawfkqfvpfsd.supabase.co}
       VITE_SUPABASE_ANON_KEY: ${VITE_SUPABASE_ANON_KEY:-dev-anon-key}
       SUPABASE_DB_PASSWORD: ${SUPABASE_DB_PASSWORD:-supabase}
     depends_on:
@@ -27,11 +27,11 @@ services:
 
   supabase-db:
     image: supabase/postgres:15.1.1.79
-    container_name: pavement-supabase-db
+    container_name: intimacy-supabase-db
     restart: unless-stopped
     environment:
       POSTGRES_PASSWORD: ${SUPABASE_DB_PASSWORD:-supabase}
-      POSTGRES_DB: ${SUPABASE_DB_NAME:-supabase}
+      POSTGRES_DB: ${SUPABASE_DB_NAME:-intimacy}
       POSTGRES_USER: ${SUPABASE_DB_USER:-supabase}
     ports:
       - "54322:5432"
@@ -45,7 +45,7 @@ services:
 
   supabase-studio:
     image: supabase/studio:20241212-174357
-    container_name: pavement-supabase-studio
+    container_name: intimacy-supabase-studio
     restart: unless-stopped
     depends_on:
       - supabase-db

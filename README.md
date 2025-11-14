@@ -1,6 +1,6 @@
-# Pavement Performance Suite (Transition Roadmap)
+# Intimacy Companion Suite
 
-> This repository is actively evolving from a legacy partner-experience app into the Pavement Performance Suite — an operations, inspection, and analytics platform tailored to church parking lot rehabilitation. The sections below will be refactored phase-by-phase; use this README as the authoritative onboarding guide.
+> Intimacy Companion Suite (ICS) is a privacy-first partner experience platform that blends playful discovery with intentional connection. It combines guided exploration, shared planning, contextual journaling, and personal wellness tracking in a single hybrid web/mobile application. Every surface is designed for consent, safety, and delight.
 
 ## Setup
 
@@ -8,12 +8,11 @@
    ```powershell
    pwsh -File ./install_dependencies.ps1
    ```
-   > Optional flags: `-SkipPlaywright`, `-NoHusky`
 2. **Configure environment variables**:
    ```powershell
    Copy-Item .env.example .env
    ```
-   Populate Supabase, Firebase-legacy, analytics, and integration keys as needed. Prefer vault-backed secrets for production (see `PROTECT_ENV.md`).
+   Populate Supabase (`intimacy` project), optional Firebase, AI, and analytics keys as needed. **Only** the Vite-prefixed keys are read by the client bundle (`VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`). Server-side tools (migrations, seeds) also consume `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY`. Remove legacy prefixes such as `NEXT_PUBLIC_*` or `REACT_APP_*`. Prefer vault-backed secrets for production environments (see `PROTECT_ENV.md`).
 3. **Launch the dev server**:
    ```powershell
    pnpm dev
@@ -29,89 +28,87 @@ docker compose up --build
 ```
 
 - App served on http://localhost:5173
-- Supabase Postgres exposed on `localhost:54322`
+- Supabase Postgres (`intimacy` database) exposed on `localhost:54322`
 - Supabase Studio UI on http://localhost:54323
 - Update `.env` or environment overrides before starting for custom credentials
 
 Production build image:
 
 ```bash
-docker build --target production -t pavement-suite:prod .
+docker build --target production -t intimacy-suite:prod .
 ```
 
 ## Branching Strategy
 
 - **Default branch**: `main` (production ready)
 - **Ongoing platform work**: `develop`
-- **Feature branches**: `feat/<scope>-<summary>` (e.g., `feat/inspections-offline-sync`)
+- **Feature branches**: `feat/<scope>-<summary>` (e.g., `feat/partner-shared-journal`)
 - **Fix branches**: `fix/<scope>-<summary>`
 - **Release branches**: `release/<version>` prepared before production deploys
 
 Always branch from `develop`, open PRs into `develop`, and merge `develop → main` only after successful CI and release readiness checks.
 
-## Features
+## Experiences & Feature Highlights
 
-### Core Features
-- **Partner Linking** - Anonymous linking with real-time sync
-- **Shared Randomizer** - Simultaneous pose suggestions for partners
-- **Tonight's Plans** - Proposal/response system with notes
-- **Shared/Custom Lists** - Favorites, Let's Try, Done It + custom lists with merged view
-- **Real-Time Game** - Timer, streak counter, session tracking with pause/resume
-- **Stats & Achievements** - Track longest time, streak, total poses tried
-- **Photo Ideas** - Solo/Couples/Tips boudoir photography prompts
-- **Positions Gallery** - Browse all positions with search and quick jump
+### Core Experiences
+- **Partner Sync** – Secure partner pairing with online presence state, conflict resolution, and shared journaling
+- **AI-Guided Randomizer** – Collaborative picker that adapts to preferences, moods, and boundaries
+- **Tonight's Plans** – Consent-aware proposals with scheduling, shared notes, and safety reminders
+- **Curated Lists** – Personalized favorites, experiments, aftercare routines, with shared and private scopes
+- **Connection Game** – Cooperative missions, streak tracking, and custom challenges with pause/resume controls
+- **Insights & Achievements** – Wellness dashboards, habit trends, mood logging, and badge systems
+- **Creative Prompts** – Photo ideas, conversation starters, reflection prompts, and guided programs
+- **Camera Sync Studio** – Multi-angle capture with Supabase realtime mesh, synchronized recording, and shareable join links for additional cameras
+- **Positions Gallery** – Searchable atlas with filters, tags, and customizable metadata
 
 ### Security & Privacy
-- **PIN Lock** - 4-6 digit PIN with auto-lock on screen off
-- **Private Gallery** - PIN-locked personal media storage
-- **Input Sanitization** - Comprehensive XSS and injection prevention
-- **Firestore Security Rules** - Hardened with comprehensive validation
-- **Privacy-First Analytics** - Opt-in only, no PII tracking
+- **PIN & Device Lock** – 4-6 digit PIN with automated inactivity lockouts
+- **Private Gallery Vault** – Zero-knowledge storage with biometric unlock on supported devices
+- **Consent & Boundaries Hub** – Shared agreements with reminders, version history, and export options
+- **Redaction Layer** – Input sanitization, secure logging, and configurable retention policies
+- **Privacy-First Analytics** – Opt-in telemetry, anonymised aggregation, per-connection controls
 
-### UI/UX Features
-- **Advanced Search** - Search by title, ID, description, pros, cons with history
-- **Theme System** - Dark/Neon/High-Contrast themes with full customization
-- **Drag-and-Drop** - Drop positions onto Tonight's Plans or lists
-- **Keyboard Shortcuts** - Full keyboard navigation (see below)
-- **Skeleton Loaders** - Loading states for all async operations
-- **Error Toasts** - Categorized, user-friendly error messages with retry
-- **Responsive Design** - Mobile-first with tablet and desktop optimization
-- **Enhanced Accessibility** - WCAG AAA compliance, ARIA labels, screen reader support
+### UI/UX Surface
+- **Adaptive Search** – Multi-field search with history, relevance scoring, and quick actions
+- **Multi-Theme Engine** – Dark, glow, high-contrast, and user-defined theme packs with background uploads
+- **Drag-and-Drop Workflows** – Move cards between lists, sessions, and archives effortlessly
+- **Keyboard & Voice Shortcuts** – Full keyboard navigation plus optional voice command pilot (feature-flagged)
+- **Skeletons & Microcopy** – Graceful loading states and contextual guidance throughout
+- **Robust Accessibility** – WCAG 2.2 AA+ with high-contrast themes, semantic regions, and screen-reader focus management
 
 ### Performance & Offline
-- **Offline Support** - Service Worker with smart caching
-- **Offline Queue** - Auto-retry queued actions when back online
-- **Code Splitting** - Intelligent chunking for optimal bundle size
-- **Lazy Loading** - Components and images loaded on demand
-- **Image Optimization** - WebP support, responsive images, lazy loading
-- **Performance Monitoring** - Built-in performance tracking (dev mode)
+- **Offline Support** – Service worker caching, queue replay, and conflict reconciliation
+- **Predictive Prefetch** – Learns navigation patterns to warm caches proactively
+- **Granular Code Splitting** – Route and feature-based chunking with prioritised hydration
+- **Media Optimization** – Responsive images, AVIF/WebP support, and background worker processing
+- **Performance Monitoring** – Dev-mode telemetry overlay and metrics export hooks
 
-### Developer Features
-- **TypeScript Strict Mode** - Full type safety enabled
-- **Comprehensive Testing** - Unit, integration, and E2E test coverage
-- **Error Boundaries** - Enhanced error handling with categorization
-- **Environment Validation** - Build-time and runtime env var validation
-- **Dev Tools** - Performance monitor, analytics viewer, shortcuts help
+### Developer Experience
+- **TypeScript Strict Mode** – Full typing across app and supporting scripts
+- **Robust Testing** – Unit, integration, E2E, accessibility, and load testing suites
+- **Structured Error Boundaries** – Categorised recoveries with feature flag gating
+- **Environment Validation** – Build and runtime validation of required secrets
+- **Dev Mode Utilities** – Performance monitor, analytics viewer, and feature flag inspector
 
 ## Keyboard Shortcuts
 
-- `Ctrl+F` or `Ctrl+Shift+F` - Toggle filters
-- `Ctrl+,` - Toggle settings
-- `Ctrl+K` or `/` - Focus search
-- `R` - Get random position
-- `ArrowLeft` - Previous position
-- `ArrowRight` - Next random position
-- `L` - Open manage lists
-- `Escape` - Close modals/dropdowns
-- `Enter` - Submit search (when in search box)
+- `Ctrl+F` or `Ctrl+Shift+F` – Toggle filters
+- `Ctrl+,` – Toggle settings
+- `Ctrl+K` or `/` – Focus search
+- `R` – Trigger randomizer
+- `ArrowLeft` – Previous position
+- `ArrowRight` – Next random position
+- `L` – Open manage lists
+- `Escape` – Close modals/dropdowns
+- `Enter` – Submit search (when in search box)
 
 ## Search Features
 
-- **Multi-field Search** - Searches title, ID, description, pros, and cons
-- **Search History** - Recent searches saved automatically
-- **Search Suggestions** - Dropdown with history and suggestions
-- **Relevance Sorting** - Exact matches first, then title matches
-- **Result Counter** - Shows matches/total positions
+- **Multi-field Search** – Searches title, ID, description, pros, and cons
+- **Search History** – Recent searches saved automatically
+- **Search Suggestions** – Dropdown with history and suggestions
+- **Relevance Sorting** – Exact matches first, then title matches
+- **Result Counter** – Shows matches/total positions
 
 ## Development
 
@@ -122,47 +119,44 @@ Always branch from `develop`, open PRs into `develop`, and merge `develop → ma
 - **Type Check**: `pnpm build`
 - **Pre-commit**: Husky runs `pnpm exec lint-staged` to gate staged changes
 
-### UI Tooling
-
+### UI Tooling & Design System
 - Design tokens + themes: `src/styles/design-system/`
 - UI primitives: `src/components/ui/` (see `docs/UI_LIBRARY.md`)
 - Global CSS: `@/styles/design-system.css` and `@/styles/ui.css`
 - Providers: `ThemeProvider`, `ToastProvider`, `ToastViewport` in `src/main.tsx`
 
 ### Database & Supabase
-
+- Project database name: `intimacy`
+- Default Supabase endpoint: `https://qvbjdxlatawfkqfvpfsd.supabase.co` (override with `VITE_SUPABASE_URL`)
 - Migrations: `pnpm migrate:up` / `pnpm migrate:down` (requires `DATABASE_URL`)
 - Create new migration: `pnpm migrate:create -- <name>`
-- Seed sample data + roles: `pnpm db:seed`
-- Detailed setup & admin instructions: see `docs/SUPABASE_SETUP.md`
+- Seed baseline data, flags, and demo content: `pnpm db:seed`
+- Detailed setup & roles workflow: see `docs/SUPABASE_SETUP.md`
 
 ### Testing
-- **Unit Tests**: `pnpm test` - Run all unit tests (Vitest)
-- **Test UI**: `pnpm test:ui` - Interactive test runner
-- **Test Coverage**: `pnpm test:coverage` - Generate coverage report
-- **Watch Mode**: `pnpm test:watch` - Watch mode for TDD
-- **Integration Tests**: `pnpm test:integration` - Run integration tests
-- **E2E Tests**: `pnpm e2e` - Run Playwright end-to-end tests
-- **All Tests**: `pnpm test:all` - Run unit, integration, and E2E tests
+- **Unit Tests**: `pnpm test`
+- **Test UI**: `pnpm test:ui`
+- **Test Coverage**: `pnpm test:coverage`
+- **Watch Mode**: `pnpm test:watch`
+- **Integration Tests**: `pnpm test:integration`
+- **E2E Tests**: `pnpm e2e`
+- **All Tests**: `pnpm test:all`
 
 ### CI/CD
 - GitHub Actions workflow `ci.yml` runs on every PR
-- Automated linting, type checking, and testing
-- Firebase deployment on merge to `main`
+- Automated linting, type checking, tests, and security scans
+- Container image build + push gated by release channel
 
-### Firebase Emulator
-- `firebase emulators:start` - Run local Firebase emulator (requires Firebase CLI)
-
-### Data linter workflow
-- Run: `npm run data:lint`
-- It reports missing `description/pros/cons` or missing images per `data/data.json`.
-- Fill in fields directly in `data/data.json`; rerun the linter until clean.
+### Data Linter Workflow
+- Run: `pnpm data:lint`
+- Reports missing `description/pros/cons` or missing images per `data/data.json`
+- Fill in fields directly in `data/data.json`; rerun until clean
 
 ## Camera Sync
-- Local-only mode (default): recordings stay on device. Enable in Settings.
-- TURN relay can be disabled in Settings.
-- Save location: prompt each time or auto-download.
-- Auto-delete local blob after export (optional).
+- Local-only mode (default): recordings stay on device
+- TURN relay can be disabled in Settings
+- Save location: prompt each time or auto-download
+- Auto-delete local blob after export (optional)
 
 ## Drag-and-Drop
 - Drag the main position image and drop on:
@@ -171,47 +165,25 @@ Always branch from `develop`, open PRs into `develop`, and merge `develop → ma
 
 ## Deployment
 
-### Firebase Hosting (Manual)
-1. Build the app: `npm run build`
-2. Deploy: `firebase deploy --only hosting`
-3. Your app will be live at: `https://ex-pose-positions.web.app`
+### Manual Deployment
+1. Build the app: `pnpm build`
+2. Deploy static assets to your hosting provider of choice (e.g., Vercel, Netlify, Cloudflare Pages)
+3. Provision environment variables in the hosting dashboard before go-live
 
 ### Automatic Deployments (GitHub Actions)
-1. Get Firebase service account key:
-   - Go to: https://console.firebase.google.com/project/ex-pose-positions/settings/serviceaccounts/adminsdk
-   - Click "Generate new private key"
-   - Save the JSON file
-2. Add to GitHub Secrets:
-   - Go to: https://github.com/NXConner/ex-pose-positions/settings/secrets/actions
-   - Click "New repository secret"
-   - Name: `FIREBASE_SERVICE_ACCOUNT`
-   - Value: Paste entire contents of the JSON file
-3. Push to `main` branch → automatic deployment!
+1. Store deployment credentials (e.g., Vercel token, Supabase service role) in GitHub Secrets
+2. Update `.github/workflows/ci.yml` with host-specific deploy steps
+3. Push to `main` branch → automatic deployment pipeline runs
 
-### Firebase Project
-- Project ID: `ex-pose-positions`
-- Project Number: `847137742129`
-- Repository: https://github.com/NXConner/ex-pose-positions
-
-## Android (Capacitor)
+## Mobile (Capacitor)
 - Sync web assets: `pnpm run cap:sync`
 - Open Android Studio: `pnpm run cap:android`
-- Ensure you set Firebase keys in `.env` before building.
+- Ensure Supabase and feature flag values exist in `.env` before building
 
 ## Security
-- Firestore rules in `firestore.rules`
+- Firestore rules in `firestore.rules` (legacy compatibility)
+- Supabase RLS policies defined in `supabase/migrations`
 - Data docs stamped with `schemaVersion`
 
 ## License
-MIT - see [LICENSE](./LICENSE)
-
-## Credits
-- Data inspiration and assets:
-  - sexpositions.club
-  - GitHub repositories:
-    - https://github.com/raminr77/random-sex-position
-    - https://github.com/adminlove520/Sex-Positions
-- Photography prompt resources referenced for Photo Ideas:
-  - shotkit.com, shotvoice.com, wikihow.com, boudoirbyrebeccalynn.com, aftershoot.com,
-    betsymccuepictures.com, katebackdrop.com, unscriptedphotographers.com,
-    rosesandscarsphotography.com, coutureboudoir.com
+MIT – see [LICENSE](./LICENSE)

@@ -97,7 +97,7 @@ export const themes: Record<ThemeName, ThemeDefinition> = {
   },
   sunset: {
     name: "sunset",
-    description: "Warm amber palette reflecting late-day sealcoat windows.",
+    description: "Warm amber palette inspired by golden-hour connection rituals.",
     colors: {
       background: "#fff8f1",
       surface: "#fff1e6",

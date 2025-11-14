@@ -1,6 +1,6 @@
 ---
 name: Feature Proposal
-about: Suggest a new capability for Pavement Performance Suite
+about: Suggest a new capability for Intimacy Companion Suite
 title: "[Feature] "
 labels: enhancement
 assignees: ''
@@ -8,25 +8,24 @@ assignees: ''
 
 ## Problem Statement
 
-> What pain point or opportunity are we addressing (church client, crew, estimator, etc.)?
+> Which user scenario or partnership moment are we improving? (e.g., connection ritual, shared planning, reflection, privacy)
 
 ## Proposed Solution
 
-> Outline the desired behaviour, including user journey highlights.
+> Outline the desired behaviour, including the user journey and any consent/safety considerations.
 
 ## Success Criteria
 
-- [ ] KPI / measurable outcome
-- [ ] User story completion definition
-- [ ] Acceptance tests / scenarios
+- [ ] User story & acceptance criteria defined
+- [ ] Telemetry or success metrics identified
+- [ ] Feature flag rollout plan documented
 
 ## Dependencies / Constraints
 
-- Related Supabase tables or migrations:
-- Integrations or APIs required:
-- Feature flags or rollout plan:
+- Related Supabase tables, migrations, or storage buckets:
+- Integrations or APIs required (AI, notifications, wearables, etc.):
+- Feature flags or rollout plan details:
 
 ## Additional Notes
 
-> Sketches, links to comparable products, regulatory requirements, etc.
-
+> Include sketches, references, UX copy, accessibility requirements, and any regulatory considerations.

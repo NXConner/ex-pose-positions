@@ -1,12 +1,12 @@
 {
-  "name": "random-sex-position",
+  "name": "intimacy-companion-suite",
   "private": true,
   "version": "1.0.0",
-  "author": "Ramin",
+  "author": "Intimacy Companion Core Team",
   "type": "module",
   "license": "MIT",
-  "homepage": "https://ex-pose-positions.web.app",
-  "description": "This Repo is created with the (sexpositions.club) data for fun and gives you a random sex position. 😅😈",
+  "homepage": "https://intimacy-suite.example",
+  "description": "Privacy-first partner experience suite blending exploration, planning, journaling, and wellness insights.",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

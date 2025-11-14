@@ -1,5 +1,5 @@
 <#
-    Pavement Performance Suite – Dependency Bootstrapper
+    Intimacy Companion Suite – Dependency Bootstrapper
 
     Usage:
       pwsh -File ./install_dependencies.ps1 [-SkipPlaywright] [-NoHusky]

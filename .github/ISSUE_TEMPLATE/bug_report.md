@@ -1,6 +1,6 @@
 ---
 name: Bug Report
-about: Help us squash defects in Pavement Performance Suite
+about: Help us squash defects in Intimacy Companion Suite
 title: "[Bug] "
 labels: bug
 assignees: ''
@@ -16,6 +16,7 @@ assignees: ''
 - Environment (dev/staging/prod):
 - Browser & version:
 - Device/OS:
+- Feature flags enabled:
 
 ## Steps to Reproduce
 
@@ -31,9 +32,8 @@ assignees: ''
 
 ## Screenshots / Logs
 
-> Attach screenshots, console logs, network traces, or crash dumps.
+> Attach screenshots, console logs, network traces, or crash dumps. Note any personally identifiable data that was redacted.
 
 ## Additional Context
 
-> Links to related issues, Supabase records, or project IDs.
-
+> Links to related issues, Supabase rows, feature flags, or rollout notes.
