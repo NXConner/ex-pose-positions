@@ -12,9 +12,10 @@
 Update `.env` (or `.env.local`) with:
 
 ```
-VITE_SUPABASE_URL=https://qvbjdxlatawfkqfvpfsd.supabase.co
-VITE_SUPABASE_ANON_KEY=<anon key>
-SUPABASE_SERVICE_ROLE_KEY=<service role key>
+VITE_SUPABASE_URL=https://qvbjdxlatawfkqfvpfsd.supabase.co     # required by the web app
+VITE_SUPABASE_ANON_KEY=<anon key>                               # required by the web app
+SUPABASE_URL=https://qvbjdxlatawfkqfvpfsd.supabase.co           # used by CLI/scripts
+SUPABASE_SERVICE_ROLE_KEY=<service role key>                    # server-side only!
 SUPABASE_DB_PASSWORD=<database password>
 SUPER_ADMIN_EMAIL=<primary admin email>
 SUPER_ADMIN_PASSWORD=<temp password for seeding>

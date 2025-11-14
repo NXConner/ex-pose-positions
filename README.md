@@ -12,7 +12,7 @@
    ```powershell
    Copy-Item .env.example .env
    ```
-   Populate Supabase (`intimacy` project), optional Firebase, AI, and analytics keys as needed. Prefer vault-backed secrets for production environments (see `PROTECT_ENV.md`).
+   Populate Supabase (`intimacy` project), optional Firebase, AI, and analytics keys as needed. **Only** the Vite-prefixed keys are read by the client bundle (`VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`). Server-side tools (migrations, seeds) also consume `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY`. Remove legacy prefixes such as `NEXT_PUBLIC_*` or `REACT_APP_*`. Prefer vault-backed secrets for production environments (see `PROTECT_ENV.md`).
 3. **Launch the dev server**:
    ```powershell
    pnpm dev
